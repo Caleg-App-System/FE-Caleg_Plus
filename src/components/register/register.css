@@ -1,0 +1,31 @@
+.content {
+  width: fit-content;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+input {
+  border-radius: 10px;
+  border: 1px solid #dc143c;
+  width: 820px;
+  height: 75px;
+  padding-left: 20px;
+}
+
+::placeholder {
+  color: #dc143c;
+  opacity: 0.25;
+}
+.btn-primary {
+  width: 100%;
+}
+
+.button-register {
+  border-radius: 10px;
+  width: 820px;
+  height: 75px;
+}
+
+.form-register{
+  padding-left: 20px !important;
+}

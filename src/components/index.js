@@ -1,3 +1,5 @@
 import Content from "./content";
-
-export { Content };
+import Navbar from "./navbar";
+import RegisterComponent from "./register";
+import LoginComponent from "./login";
+export { Content, Navbar, LoginComponent, RegisterComponent };
