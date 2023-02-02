@@ -30,6 +30,25 @@ const RegisterComponent = () => {
             <div className="row d-flex justify-content-center ">
               <div className="col">
                 <div className="form-group mb-3">
+                  <label className="mb-3">Nama Lengkap*</label>
+                  <div className="col">
+                    <input
+                      className={errors.name ? "form-control border-danger form-register" : "form-control form-register"}
+                      type="text"
+                      placeholder="Nama lengkap..."
+                      aria-label=""
+                      name='name'
+                      {...register('name', {
+                        required: "Nama harus diisi",
+                      })}/>
+                    {errors.name && <p className="text-danger">{errors.name.message}</p>}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row d-flex justify-content-center ">
+              <div className="col">
+                <div className="form-group mb-3">
                   <label className="mb-3">Username*</label>
                   <div className="col">
                     <input
@@ -39,10 +58,10 @@ const RegisterComponent = () => {
                       aria-label=""
                       name='username'
                       {...register('username', {
-                        required: "Username is Required",
+                        required: "Username harus diisi",
                         maxLength: {
                           value: 15,
-                          message: "Username Too Long",
+                          message: "Username terlalu panjang",
                         },
                       })}/>
                     {errors.username && <p className="text-danger">{errors.username.message}</p>}
@@ -62,16 +81,15 @@ const RegisterComponent = () => {
                       aria-label=""
                       name="password"
                       {...register("password", {
-                        required: "Password is Required",
-                        minLength: {
-                          value: 8,
-                          message: "Password Too Short",
+                        required: "Password harus diisi",
+                        pattern: {
+                          value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/i,
+                          message: "Password harus 8 karakter disertai minimal huruf besar, angka, dan karakter khusus",
                         },
                         maxLength: {
                           value: 18,
-                          message: "Password Too Long",
+                          message: "Password terlalu panjang",
                         },
-                        validate: (value) => value === getValues("confirmPassword") || "Password doesn't match",
                       })}
                     />
                     {errors.password && <p className="text-danger">{errors.password.message}</p>}
@@ -91,16 +109,12 @@ const RegisterComponent = () => {
                       aria-label=""
                       name="passconfirm"
                       {...register("confirmPassword", {
-                        required: "Password is Required",
-                        minLength: {
-                          value: 8,
-                          message: "Password Too Short",
-                        },
+                        required: "Password korfirmasi harus diisi",
                         maxLength: {
                           value: 18,
-                          message: "Password Too Long",
+                          message: "Password terlalu panjang",
                         },
-                        validate: (value) => value === getValues("password") || "Password doesn't match",
+                        validate: (value) => value === getValues("password") || "Password tidak sesuai",
                       })}
                     />
                     {errors.confirmPassword && <p className="text-danger">{errors.confirmPassword.message}</p>}
@@ -120,14 +134,31 @@ const RegisterComponent = () => {
                       aria-label=""
                       name="email"
                       {...register("email", {
-                        required: "Email is Required",
+                        required: "Email harus diisi",
                         pattern: {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                          message: "Please input true email.",
+                          message: "Tolong masukkan email yang benar.",
                         },
                       })}
                     />
                     {errors.email && <p className="text-danger">{errors.email.message}</p>}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row d-flex justify-content-center ">
+              <div className="col">
+                <div className="form-group mb-3">
+                  <label className="mb-3">Registrasi sebagai</label>
+                  <div className="col">
+                    <select
+                      className="form-select" 
+                      name='role'
+                      {...register('role')}>
+                        <option>CALEG</option>
+                        <option>SAKSI</option>
+                        <option>KOORDES</option>
+                    </select>
                   </div>
                 </div>
               </div>

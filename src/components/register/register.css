@@ -8,7 +8,7 @@ input {
   border-radius: 10px;
   border: 1px solid #dc143c;
   width: 820px;
-  height: 75px;
+  height: 60px;
   padding-left: 20px;
 }
 
@@ -16,14 +16,11 @@ input {
   color: #dc143c;
   opacity: 0.25;
 }
-.btn-primary {
-  width: 100%;
-}
 
 .button {
   border-radius: 10px;
-  width: 820px;
-  height: 75px;
+  width: 820px !important;
+  height: 60px !important;
 }
 
 .form-register{
