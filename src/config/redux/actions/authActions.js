@@ -46,3 +46,13 @@ export const ApprovalActions = (id, data) => async (dispatch) => {
       dispatch({type: 'END'})  
   }       
 }
+
+export const verifyAccountActions = (data, history) => async (dispatch) => {
+  try {
+      await AuthService.verifyAccount(data);
+      SweatAlert('Akun berhasil diverifikasi', 'success');
+      history('/login');
+  } catch (error) {
+      SweatAlert(String(error.response.data.message), 'warning')
+  }   
+}

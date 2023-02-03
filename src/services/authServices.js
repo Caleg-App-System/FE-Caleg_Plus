@@ -40,7 +40,12 @@ export const AuthService = {
     localStorage.removeItem('email');
     localStorage.removeItem('role');
     return;
-  }
+  },
+
+  verifyAccount : async (data) => {
+    const response = await API.put('/verify', data);
+    return response;
+  },
 };
 
 const setHeadersAndStorage = ({ user, token}, Username, id, email, Role,) => {

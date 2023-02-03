@@ -4,7 +4,7 @@ import IconMasuk from "../../assets/icons/masuk.svg";
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch} from 'react-redux';
-import { loginActions } from "../../config/redux/actions/authActions";
+import { loginActions, verifyAccountActions } from "../../config/redux/actions/authActions";
 
 const LoginComponent = (props) => {
   const history = useNavigate();
@@ -14,6 +14,13 @@ const LoginComponent = (props) => {
     const onSubmit = (data) => {
         dispatch(loginActions(data, history));
     }
+
+    // Verify Account From Email
+    if (props.tokenVerify) {
+      const token={token :props.tokenVerify};
+      dispatch(verifyAccountActions(token, history));
+      console.log(token);
+  }
 
   return (
     <>
