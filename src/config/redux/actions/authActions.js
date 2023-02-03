@@ -1,4 +1,5 @@
 import { AuthService } from "../../../services/authServices";
+import { UsersService } from "../../../services/usersServices";
 import SweatAlert from "../../SweatAlert";
 
 export const registerActions = (data, history) => async (dispatch) => {
@@ -32,4 +33,16 @@ export const logoutActions = (history, role) => async (dispatch) => {
   } catch (error) {
       SweatAlert(String(error.response.data.message), 'warning')
   }   
+}
+
+export const ApprovalActions = (id, data) => async (dispatch) => {
+  try {
+      const response = await UsersService.approval(id, data);
+      SweatAlert('Approve Berhasil', 'success');
+      dispatch({type: 'END'})  
+      return response;
+  } catch (error) {
+      SweatAlert(String(error.response.data.message), 'warning')
+      dispatch({type: 'END'})  
+  }       
 }
