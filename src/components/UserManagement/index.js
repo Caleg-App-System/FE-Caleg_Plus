@@ -1,16 +1,10 @@
 import React, {useEffect, useState} from "react";
 import "./usermanagement.css";
-import { PencilSquare } from "react-bootstrap-icons";
-import { useDispatch } from 'react-redux';
 import { UsersService } from '../../services/usersServices';
-import { ApprovalActions } from "../../config/redux/actions/authActions";
 
 const UserManagement = () => {
   const [update, setUpdate] = useState(false)
   const [users, setUsers] = React.useState([]);
-  const [formValues, setFormValues] = useState([])
-  const [userId, setUserId] = useState("");
-  const dispatch = useDispatch();
 
   useEffect(() => {
     UsersService.getUsers().then((res) => {
@@ -18,28 +12,11 @@ const UserManagement = () => {
     });
   }, [update])
 
-  const modalHandler = async (id) => {
-    const UserssHit = await UsersService.getUsersById(id)
-    setFormValues(UserssHit.data.data)
-}
-
-  // const approvalHandler = async (id) => {
-  //   console.log(id)
-  //   await UsersService.approval(id)
-  //   setUpdate(!update)
-  // }
-  const approvalHandler = async () => {
-    dispatch({type: 'PROGRESS'})
-   await dispatch(ApprovalActions(formValues.id,formValues));
-   setUpdate(!update)
-}
-
-  // const approvalHandler = () => {
-  //   UsersService.approval(formValues.id).then((res) => { 
-  //     console.log(res)
-  //   })
-  //   setUpdate(!update)
-  // }
+  const approvalHandler = async (id) => {
+    console.log(id)
+    await UsersService.approval(id)
+    setUpdate(!update)
+  }
 
   return (
     <>
@@ -54,8 +31,7 @@ const UserManagement = () => {
             <table className="table table-striped table-sm">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">ID</th>
+                  <th scope="col">NO</th>
                   <th scope="col">Username</th>
                   <th scope="col">Email</th>
                   <th scope="col">Nama</th>
@@ -71,7 +47,6 @@ const UserManagement = () => {
                 <>
                     <tr>
                     <td>{index + 1}</td>
-                    <td>{users.id}</td>
                     <td>{users.username}</td>
                     <td>{users.email}</td>
                     <td>{users.name}</td>
@@ -81,7 +56,7 @@ const UserManagement = () => {
                     {/* MODAL */}
                         {/* <!-- Button trigger modal --> */}
                         <td>
-                          <button onClick={approvalHandler} />
+                          <button className="btn btn-primary" onClick={() => approvalHandler(users.id)} >Acc</button>
                         {/* <p className='p-4 text-danger' onClick={approvalHandler}>Read All</p> */}
                         </td>
                         
