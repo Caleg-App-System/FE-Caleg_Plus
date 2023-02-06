@@ -12,14 +12,16 @@ const LoginComponent = (props) => {
 
     const dispatch = useDispatch();
     const onSubmit = (data) => {
+      // console.log(data)
         dispatch(loginActions(data, history));
+        // console.log(props.role)
     }
 
     // Verify Account From Email
     if (props.tokenVerify) {
       const token={token :props.tokenVerify};
       dispatch(verifyAccountActions(token, history));
-      console.log(token);
+      // console.log(token);
   }
 
   return (

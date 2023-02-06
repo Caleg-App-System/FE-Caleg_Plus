@@ -15,9 +15,14 @@ export const registerActions = (data, history) => async (dispatch) => {
 export const loginActions = (data, history) => async (dispatch) => {
   try {
       const response = await AuthService.login(data);
-      dispatch({type: 'LOGIN', payload: response.data});
+      // dispatch({type: 'LOGIN', payload: response.data});
       SweatAlert(response.data.message, 'success');
-      history('/');
+      if(response.data.data.user.role === "ADMIN") {
+          history('/admin');
+      } else {
+          history('/');
+      }
+      // history('/admin');
   } catch (error) {
       SweatAlert(String(error.response.data.message), 'warning')
   }   
