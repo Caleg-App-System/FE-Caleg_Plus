@@ -1,8 +1,17 @@
 import React from "react";
 import "./navbar.css";
 import { Logo } from "../../assets";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logoutActions } from "../../config/redux/actions/authActions";
 
 const Navbar = () => {
+  const history = useNavigate();
+  const dispatch = useDispatch();
+  const logoutHandle = () => {
+    dispatch(logoutActions(history));
+  };
+
   return (
     <div className="navbar-container">
       <nav className="navbar navbar-expand-lg bg-light px-5">
@@ -42,12 +51,7 @@ const Navbar = () => {
                 </ul>
               </li>
             </ul>
-            <form className="d-flex" role="search">
-              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-              <button className="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
+            <button className="btn btn-danger" onClick={logoutHandle}>Logout</button>
           </div>
         </div>
       </nav>
