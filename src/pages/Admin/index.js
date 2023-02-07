@@ -1,6 +1,6 @@
 import React from "react";
 
-import { UserManagement } from "../../components";
+import { UserManagement, NavbarAdmin } from "../../components";
 
 const Admin = () => {
   return (
@@ -8,6 +8,6 @@ const Admin = () => {
       <UserManagement />
     </div>
   );
-}
+};
 
 export default Admin;
