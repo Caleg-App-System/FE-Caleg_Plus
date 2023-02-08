@@ -4,5 +4,6 @@ import RegisterComponent from "./register";
 import LoginComponent from "./login";
 import UserManagement from "./Admin/UserManagement";
 import NavbarAdmin from "./Admin/navbarAdmin";
+import ShowElectionData from "./Caleg/showElectionData";
 
-export { Content, Navbar, LoginComponent, RegisterComponent, UserManagement, NavbarAdmin };
+export { Content, Navbar, LoginComponent, RegisterComponent, UserManagement, NavbarAdmin, ShowElectionData };

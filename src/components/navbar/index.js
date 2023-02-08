@@ -36,8 +36,8 @@ const Navbar = () => {
                     </a>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
-                      Another action
+                    <a className="dropdown-item" href="/election/data">
+                      Suara 2019
                     </a>
                   </li>
                   <li>
@@ -51,7 +51,9 @@ const Navbar = () => {
                 </ul>
               </li>
             </ul>
-            <button className="btn btn-danger" onClick={logoutHandle}>Logout</button>
+            <button className="btn btn-danger" onClick={logoutHandle}>
+              Logout
+            </button>
           </div>
         </div>
       </nav>
