@@ -1,28 +1,36 @@
-import React from "react";
+import React from 'react'
+import './navbarAdmin.css'
+import { Logo } from '../../../assets'
+import { useDispatch } from 'react-redux';
+// import { logoutActions } from '../../config/redux/actions/authActions';
+import { useNavigate } from 'react-router';
+import { BoxArrowRight} from 'react-bootstrap-icons';
 
 const NavbarAdmin = () => {
+  const history = useNavigate();
+    const dispatch = useDispatch();
+
+    // const logoutHandle = () => {
+    //     dispatch(logoutActions(history,'admin'));
+    // }
   return (
     <>
-      <div id="main">
-        <div class="head">
-          <div class="col-div-6">
-            <span class="nav">&#9776; Dashboard</span>
-            <span class="nav2">&#9776; Dashboard</span>
-          </div>
-
-          <div class="col-div-6">
-            <div class="profile">
-              <img src="images/user.png" class="pro-img" />
-              <p>
-                Manoj Adhikari <span>UI / UX DESIGNER</span>
-              </p>
+      <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+        <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#/"><img className='img-logo' src={Logo} alt="" />ADMIN CALEG_PLUS</a>
+        <button className="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="navbar-nav">
+            <div className="nav-item text-nowrap">
+            <button className="nav-link px-3 btn text-danger" onClick="" >
+            Logout
+              <BoxArrowRight color="red" size={30} className='icon-logout ms-2' />
+              </button>
             </div>
-          </div>
-          <div class="clearfix"></div>
         </div>
-      </div>
+        </header>
     </>
-  );
-};
+  )
+}
 
-export default NavbarAdmin;
+export default NavbarAdmin

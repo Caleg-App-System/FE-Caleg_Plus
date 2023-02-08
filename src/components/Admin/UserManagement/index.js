@@ -66,11 +66,15 @@ const UserManagement = () => {
 
   return (
   <>
-  <div className="content-election mx-5 my-5 px-2 py-2">
-    <div className="table-election text-center">
+  <main className="container-usermanagement col-md-9 col-lg-11">
+      {/* <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"> */}
+  <div className="content-usermanagement px-2 py-2">
+    <div className="table-usermanagement text-center">
       <DataTable title="Users" columns={columns} data={users} pagination />
     </div>
   </div>
+  {/* </div> */}
+  </main>
   </>
   )
 };

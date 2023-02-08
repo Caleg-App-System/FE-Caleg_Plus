@@ -1,12 +1,23 @@
-import React from "react";
+import React, {useState} from "react";
 
-import { UserManagement, NavbarAdmin } from "../../components";
+import { UserManagement, SidebarAdmin, NavbarAdmin } from "../../components";
 
 const Admin = () => {
+  const [componentOpen, setComponentOpen] = useState('users')
+
+  const handleComponent = (e) => {
+    setComponentOpen(e)
+  }
   return (
-    <div>
-      <UserManagement />
+    <>
+    <NavbarAdmin />
+      <div className="container-fluid">
+        <div className="row">
+            <SidebarAdmin page={handleComponent} />
+            {componentOpen === 'users' && <UserManagement />}
+        </div>
     </div>
+    </>
   );
 };
 
