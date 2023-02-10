@@ -4,7 +4,7 @@ import { Logo } from '../../../assets'
 import { useDispatch } from 'react-redux';
 // import { logoutActions } from '../../config/redux/actions/authActions';
 import { useNavigate } from 'react-router';
-import { BoxArrowRight} from 'react-bootstrap-icons';
+import { PersonCircle} from 'react-bootstrap-icons';
 
 const NavbarAdmin = () => {
   const history = useNavigate();
@@ -22,9 +22,9 @@ const NavbarAdmin = () => {
         </button>
         <div className="navbar-nav">
             <div className="nav-item text-nowrap">
-            <button className="nav-link px-3 btn text-danger" onClick="" >
-            Logout
-              <BoxArrowRight color="red" size={30} className='icon-logout ms-2' />
+            <button className="nav-link px-3 btn" onClick="" >
+            Admin
+              <PersonCircle size={30} className='icon-logout ms-2' />
               </button>
             </div>
         </div>

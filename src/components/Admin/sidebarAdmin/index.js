@@ -1,6 +1,6 @@
 import React from "react";
 import "./sidebarAdmin.css";
-import { ClipboardData, Person} from 'react-bootstrap-icons';
+import { ClipboardData, Person, BoxArrowRight} from 'react-bootstrap-icons';
 
 const SidebarAdmin = ({page}) => {
   return (
@@ -17,7 +17,7 @@ const SidebarAdmin = ({page}) => {
           <li className="nav-item">
             <button className="nav-link btn" onClick={(e)=>page('users')}>
             <Person color="black" size={30} className='me-2' />
-              Users
+              Data User
             </button>
           </li>
           <li className="nav-item">
@@ -25,6 +25,12 @@ const SidebarAdmin = ({page}) => {
             <ClipboardData color="black" size={30} className='me-2' />
               Import Data
             </button>
+          </li>
+          <li className="nav-item">
+          <button className="nav-link px-3 btn logout-button" onClick="" >
+            Logout
+              <BoxArrowRight size={30} className='icon-logout ms-2' />
+              </button>
           </li>
         </ul>
         </div>
