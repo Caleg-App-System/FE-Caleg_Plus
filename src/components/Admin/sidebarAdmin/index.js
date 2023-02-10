@@ -1,8 +1,17 @@
 import React from "react";
 import "./sidebarAdmin.css";
 import { ClipboardData, Person, BoxArrowRight} from 'react-bootstrap-icons';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logoutActions } from "../../../config/redux/actions/authActions";
 
 const SidebarAdmin = ({page}) => {
+  const history = useNavigate();
+  const dispatch = useDispatch();
+
+  const logoutHandle = () => {
+    dispatch(logoutActions(history,'admin'));
+}
   return (
     <>
       <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse mt-2">
@@ -27,7 +36,7 @@ const SidebarAdmin = ({page}) => {
             </button>
           </li>
           <li className="nav-item">
-          <button className="nav-link px-3 btn logout-button" onClick="" >
+          <button className="nav-link px-3 btn logout-button" onClick={logoutHandle} >
             Logout
               <BoxArrowRight size={30} className='icon-logout ms-2' />
               </button>

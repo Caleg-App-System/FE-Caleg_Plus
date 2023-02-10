@@ -33,12 +33,12 @@ export const loginAdminActions = (data, history) => async (dispatch) => {
   }   
 }
 
-export const logoutActions = (history) => async (dispatch) => {
+export const logoutActions = (history, role) => async (dispatch) => {
   try {
       const response = await AuthService.logout();
       dispatch({type: 'LOGOUT', payload: response});
       SweatAlert('Success Logout', 'success');
-      history('/login');
+      role === "admin" ? history('/login/admin') : history('/login')
   } catch (error) {
       SweatAlert(String(error.response.data.message), 'warning')
   }   

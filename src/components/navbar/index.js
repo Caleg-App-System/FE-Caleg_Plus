@@ -9,7 +9,7 @@ const Navbar = () => {
   const history = useNavigate();
   const dispatch = useDispatch();
   const logoutHandle = () => {
-    dispatch(logoutActions(history));
+    dispatch(logoutActions(history, 'user'));
   };
 
   return (
