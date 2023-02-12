@@ -37,7 +37,7 @@ const UploadFile = () => {
       </form>
       
       <section className='uploaded-row'>
-        <FileEarmarkExcel color='red'  size={20}/>
+        <FileEarmarkExcel color='green'  size={20}/>
         <span className='upload-content'>
           {fileName} - 
           <TrashFill color='red' size={20} className='ms-2'
