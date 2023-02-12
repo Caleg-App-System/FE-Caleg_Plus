@@ -7,5 +7,6 @@ import SidebarAdmin from "./Admin/sidebarAdmin";
 import NavbarAdmin from "./Admin/navbarAdmin";
 import LoginAdmin from "./Admin/loginAdmin";
 import ShowElectionData from "./Caleg/showElectionData";
+import UploadFile from "./Admin/uploadFile";
 
-export { Content, Navbar, LoginComponent, RegisterComponent, UserManagement, SidebarAdmin, ShowElectionData, NavbarAdmin, LoginAdmin };
+export { Content, Navbar, LoginComponent, RegisterComponent, UserManagement, SidebarAdmin, ShowElectionData, NavbarAdmin, LoginAdmin, UploadFile };
