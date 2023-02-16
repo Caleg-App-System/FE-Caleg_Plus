@@ -1,12 +1,31 @@
 .container-usermanagement {
-    margin-left:auto;
+  margin-left: auto;
 }
 
 .content-usermanagement {
-    background-color: #fff;
-    border-radius: 10px;
-  }
-  
-  .table-usermanagement {
-    margin-left: 10%;
-  }
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.table-usermanagement {
+  margin-left: 10%;
+}
+
+.input-filter {
+  flex: 1;
+  height: 40px;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  padding-left: 10px;
+}
+
+.box-filter {
+  width: 500px;
+  height: 50px;
+  background-color: white;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
