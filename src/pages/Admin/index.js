@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-import { UserManagement, SidebarAdmin, NavbarAdmin, UploadFile } from "../../components";
+import { UserManagement, SidebarAdmin, NavbarAdmin, UploadFile, ImportFile } from "../../components";
 
 const Admin = () => {
   const [componentOpen, setComponentOpen] = useState('users')
@@ -15,7 +15,7 @@ const Admin = () => {
         <div className="row">
             <SidebarAdmin page={handleComponent} />
             {componentOpen === 'users' && <UserManagement />}
-            {componentOpen === 'import' && <UploadFile />}
+            {componentOpen === 'import' && <ImportFile />}
         </div>
     </div>
     </>

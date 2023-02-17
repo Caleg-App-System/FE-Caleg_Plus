@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import "./uploadFile.css"
+import * as XLSX from 'xlsx/xlsx.mjs';
 import { ExcelLogo } from '../../../assets'
 import { CloudArrowUp, FileEarmarkExcel, TrashFill } from 'react-bootstrap-icons'
 
@@ -7,6 +8,31 @@ const UploadFile = () => {
   const [file, setFile] = useState(null)
   const [fileName, setFileName] = useState("TIdak ada file terpilih")
   
+//   const workbook = XLSX.readFile('/user.xlsx');
+// const sheet_name = workbook.SheetNames[0];
+// const worksheet = workbook.Sheets[sheet_name];
+// const data = XLSX.utils.sheet_to_json(worksheet);
+
+// // Convert to JSON format
+// const jsonData = JSON.stringify(data);
+// console.log(jsonData);
+
+function handleFileUpload(event) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+
+  reader.onload = function (event) {
+    const data = event.target.result;
+    const workbook = XLSX.read(data, { type: "binary" });
+    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+console.log(jsonData)
+    // Send jsonData to backend database
+  };
+
+  reader.readAsBinaryString(file);
+}
+
   return (
     <>
      <main className='upload-containers'>
@@ -14,12 +40,13 @@ const UploadFile = () => {
       onClick={() => document.querySelector(".input-field").click()}
       >
         <input type="file" className='input-field' hidden 
-        onChange={({ target: {files}}) => {
-          files[0] && setFileName(files[0].name)
-          if(files){
-            setFile(URL.createObjectURL(files[0]))
-          }
-        }}
+        onChange={handleFileUpload}
+        // onChange={({ target: {files}}) => {
+        //   files[0] && setFileName(files[0].name)
+        //   if(files){
+        //     setFile(URL.createObjectURL(files[0]))
+        //   }
+        // }}
          />
 
         {file ?

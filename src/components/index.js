@@ -8,5 +8,6 @@ import NavbarAdmin from "./Admin/navbarAdmin";
 import LoginAdmin from "./Admin/loginAdmin";
 import ShowElectionData from "./Caleg/showElectionData";
 import UploadFile from "./Admin/uploadFile";
+import ImportFile from "./Admin/importFile";
 
-export { Content, Navbar, LoginComponent, RegisterComponent, UserManagement, SidebarAdmin, ShowElectionData, NavbarAdmin, LoginAdmin, UploadFile };
+export { Content, Navbar, LoginComponent, RegisterComponent, UserManagement, SidebarAdmin, ShowElectionData, NavbarAdmin, LoginAdmin, UploadFile, ImportFile };
