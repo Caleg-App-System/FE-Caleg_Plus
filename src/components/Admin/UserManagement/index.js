@@ -27,6 +27,28 @@ const UserManagement = () => {
     setFilterText(e.target.value);
   };
 
+  const customStyles = {
+    rows: {
+      style: {
+        fontSize: "14px", // override the row height
+      },
+    },
+    headCells: {
+      style: {
+        fontSize: "15px",
+        paddingLeft: "8px", // override the cell padding for head cells
+        paddingRight: "8px",
+        backgroundColor: "#d3d3d3",
+      },
+    },
+    cells: {
+      style: {
+        paddingLeft: "8px", // override the cell padding for data cells
+        paddingRight: "8px",
+      },
+    },
+  };
+
   const columns = [
     {
       name: "NO",
@@ -52,21 +74,38 @@ const UserManagement = () => {
       name: "Role",
       selector: (row) => row.role,
       sortable: true,
+      width: "100px",
     },
     {
       name: "Status Akun",
       selector: (row) => (row.is_verified_account === true ? "Terverifikasi" : "Belum Verifikasi"),
       sortable: true,
+      conditionalCellStyles: [
+        {
+          when: (row) => row.is_verified_account === false,
+          style: {
+            color: "red",
+          }
+        },
+      ]
     },
     {
       name: "Status Approval",
       selector: (row) => (row.is_verified_role === true ? "Approve" : "Belum Approve"),
       sortable: true,
+      conditionalCellStyles: [
+        {
+          when: (row) => row.is_verified_role === false,
+          style: {
+            color: "red",
+          }
+        },
+      ]
     },
     {
       name: "Aksi",
       cell: (row) => (
-        <button className="btn btn-primary" onClick={() => approvalHandler(row.id)}>
+        <button className="btn btn-primary btn-sm" onClick={() => approvalHandler(row.id)}>
           Acc
         </button>
       ),
@@ -89,6 +128,7 @@ const UserManagement = () => {
                   <input className="input-filter" type="search" placeholder="Cari username" onChange={handleFilter} />
                 </div>
               }
+              customStyles={customStyles}
               pagination
             />
           </div>
