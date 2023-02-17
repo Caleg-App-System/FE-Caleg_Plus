@@ -6,3 +6,12 @@
 .table-election {
   margin: 2%;
 }
+
+.input-search {
+  flex: 1;
+  height: 30px;
+  border: solid 1px #e0e0e0;
+  outline: none;
+  font-size: 15px;
+  padding-left: 10px;
+}
