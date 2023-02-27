@@ -1,114 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "./importFileExcel.css";
-import * as XLSX from "xlsx";
-import axios from "axios";
-import SweatAlert from "../../../config/SweatAlert";
+import { useDispatch } from "react-redux";
+import { PostImportExcel } from "../../../config/redux/actions/importActions";
 
 const UploadFile = () => {
-  // on change states
-  const [excelFile, setExcelFile] = useState(null);
-  const [excelFileError, setExcelFileError] = useState(null);
-  console.log(excelFile);
+  const [file, setFile] = useState(null);
+  console.log(file);
+  const dispatch = useDispatch();
 
-  // handle file upload and check file type
-  const fileType = ["application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"];
-  const handleFile = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      if (selectedFile && fileType.includes(selectedFile.type)) {
-        const reader = new FileReader();
-        reader.readAsArrayBuffer(selectedFile);
-        reader.onload = (e) => {
-          setExcelFileError(null);
-          setExcelFile(e.target.result);
-        };
-      } else {
-        setExcelFileError("Mohon untuk memilih file excel");
-        setExcelFile(null);
-      }
-    } else {
-      console.log("no file selected");
-    }
+  const handleFileUpload = async () => {
+    const data = new FormData();
+    data.append("file", file);
+    console.log(data);
+    await dispatch(PostImportExcel(data));
   };
-
-  // submit caleg
-  const handleSubmitCaleg = (e) => {
-    e.preventDefault();
-    // if (excelFile !== null) {
-      const workbook = XLSX.read(excelFile, { type: "buffer" });
-      const worksheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[worksheetName];
-      const data = XLSX.utils.sheet_to_json(worksheet);
-      console.log(data);
-      // setExcelData(data);
-      sendDataCaleg(data);
-    // }
-    // else{
-    //   setExcelData(null);
-    // }
-    // dispatch(ImportService.importExcel(excelData))
-  };
-
-  // submit vote
-  const handleSubmitVote = (e) => {
-    e.preventDefault();
-    if (excelFile !== null) {
-      const workbook = XLSX.read(excelFile, { type: "buffer" });
-      const worksheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[worksheetName];
-      const data = XLSX.utils.sheet_to_json(worksheet);
-      console.log(data);
-      // setExcelData(data);
-      sendDataVote(data);
-    }
-    // else{
-    //   setExcelData(null);
-    // }
-    // dispatch(ImportService.importExcel(excelData))
-  };
-
-  const sendDataCaleg = (data) => {
-    axios.post("http://localhost:8000/caleg/create", data, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    SweatAlert("Data berhasil di upload", "success");
-  };
-  // const sendDataCaleg = (data) => async () => {
-  //   try {
-  //     await axios.post("http://localhost:8000/caleg/create", data, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-  //     SweatAlert("Data caleg berhasil diupload", "success");
-  //   } catch (error) {
-  //     SweatAlert(String(error.response.data.message), "warning");
-  //   }
-  // };
-
-  const sendDataVote = (data) => {
-    axios.post("http://localhost:8000/suara/create", data, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    SweatAlert("Data berhasil di upload", "success");
-  };
-
-  // const sendDataVote = (data) => async () => {
-  //   try {
-  //     await axios.post("http://localhost:8000/dpp/create", data, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-  //     SweatAlert("Data perolehan suara berhasil diupload", "success");
-  //   } catch (error) {
-  //     SweatAlert(String(error.response.data.message), "warning");
-  //   }
-  // };
 
   return (
     <>
@@ -137,75 +42,25 @@ const UploadFile = () => {
             </div>
 
             <div className="col-lg-12">
-              <div className="card shadow mb-4">
-                <div className="card-header py-3">
-                  <h6 className="m-0 font-weight-bold .text-gray-900">Upload Data Calon Legislatif</h6>
-                </div>
-                <div className="card-body">
-                  <form className="user">
-                    <label className="form-label">
-                      Format nama file: <span className="text-dark">NamaCaleg_NamaPartai_Dapil.xlsx</span>
-                    </label>
-                    <input className="form-control input-file" required type="file" onChange={handleFile} />
-                    {excelFileError && (
-                      <div className="text-danger" style={{ marginTop: 5 + "px" }}>
-                        {excelFileError}
-                      </div>
-                    )}
-                    <div className="row">
-                      <button type="submit" onClick={handleSubmitCaleg} className="mt-2 ms-3 col-lg-2 btn btn-primary btn-user btn-block">
-                        Upload
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-
-              {/* <div className="card shadow mb-4">
-                <div className="card-header py-3">
-                  <h6 className="m-0 font-weight-bold .text-gray-900">Upload daftar pemilih potensial</h6>
-                </div>
-                <div className="card-body">
-                  <form className="user">
-                    <label className="form-label">
-                      Format nama file: <span className="text-dark">dummy.xls</span>
-                    </label>
-                    <input className="form-control" required type="file" onChange={handleFile} />
-                    {excelFileError && (
-                      <div className="text-danger" style={{ marginTop: 5 + "px" }}>
-                        {excelFileError}
-                      </div>
-                    )}
-                    <div className="row">
-                      <button type="submit" onClick={handleSubmit} className="mt-2 ms-3 col-lg-2 btn btn-primary btn-user btn-block">
-                        Upload
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div> */}
 
               <div className="card shadow mb-4">
                 <div className="card-header py-3">
                   <h6 className="m-0 font-weight-bold .text-gray-900">Upload File Data Perolehan Suara</h6>
                 </div>
                 <div className="card-body">
-                  <form className="user">
                     <label className="form-label">
                       Format nama file: <span className="text-dark">PerolehanSuara_Dapil.xlsx</span>
                     </label>
-                    <input className="form-control input-file" required type="file" onChange={handleFile} />
-                    {excelFileError && (
-                      <div className="text-danger" style={{ marginTop: 5 + "px" }}>
-                        {excelFileError}
-                      </div>
-                    )}
+                    <input className="form-control input-file" required type="file" accept=".xlsx" onChange={event => {
+                      const file = event.target.files[0];
+                      setFile(file);
+                    }} />
+                    
                     <div className="row">
-                      <button type="submit" onClick={handleSubmitVote} className="mt-2 ms-3 col-lg-2 btn btn-primary btn-user btn-block">
+                      <button type="submit" onClick={handleFileUpload} className="mt-2 ms-3 col-lg-2 btn btn-primary btn-user btn-block">
                         Upload
                       </button>
                     </div>
-                  </form>
                 </div>
               </div>
             </div>
