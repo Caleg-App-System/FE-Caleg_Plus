@@ -1,12 +1,22 @@
-import React from "react";
+import React, {useState}from "react";
 
-import { Navbar, ShowElectionData } from "../../components";
+import { Navbar, SelectedButton, ShowElectionDataSplit, ShowElectionData, ShowElectionDataSplitFour } from "../../components";
 
 const ShowElection = () => {
+  const [electionOpen, setElectionOpen] = useState('one')
+  const handleComponent = (e) => {
+    setElectionOpen(e)
+  }
   return (
     <>
       <Navbar />
-      <ShowElectionData />
+      <div className="container-fluid">
+          <SelectedButton election={handleComponent} />
+          {electionOpen === 'one' && <ShowElectionData />}
+          {electionOpen === 'two' && <ShowElectionDataSplit />}
+          {electionOpen === 'four' && <ShowElectionDataSplitFour />}
+      </div>
+      
     </>
   );
 }
