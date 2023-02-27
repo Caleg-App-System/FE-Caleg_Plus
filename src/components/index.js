@@ -6,8 +6,11 @@ import UserManagement from "./Admin/UserManagement";
 import SidebarAdmin from "./Admin/sidebarAdmin";
 import NavbarAdmin from "./Admin/navbarAdmin";
 import LoginAdmin from "./Admin/loginAdmin";
+import SelectedButton from "./Caleg/selectedButton";
 import ShowElectionData from "./Caleg/showElectionData";
+import ShowElectionDataSplit from "./Caleg/showElectionDataSplit";
+import ShowElectionDataSplitFour from "./Caleg/showElectionDataSplitFour";
 import UploadFile from "./Admin/uploadFile";
 import ImportFile from "./Admin/importFile";
 
-export { Content, Navbar, LoginComponent, RegisterComponent, UserManagement, SidebarAdmin, ShowElectionData, NavbarAdmin, LoginAdmin, UploadFile, ImportFile };
+export { Content, Navbar, LoginComponent, RegisterComponent, UserManagement, SidebarAdmin, SelectedButton, ShowElectionData, ShowElectionDataSplit, ShowElectionDataSplitFour, NavbarAdmin, LoginAdmin, UploadFile, ImportFile };
