@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./showElectionData.css";
+import "../showElectionData/showElectionData.css"
 import DataTable from "react-data-table-component";
 import { VoteService } from "../../../services/voteServices";
 
@@ -96,7 +96,7 @@ const columns = [
   },
 ];
 
-const ShowElectionData = () => {
+const ShowElectionDataSplit = () => {
   const [election, setElection] = useState([]);
   const [searchValue, setSearchValue] = useState("");
 
@@ -113,6 +113,8 @@ const ShowElectionData = () => {
   return (
     <>
       <div className="content-election mx-5 px-2 py-2">
+        <div className="row">
+          <div className="col-md-6">
         <div className="table-election text-center">
           <DataTable
             title="Perolehan Suara 2019"
@@ -132,9 +134,32 @@ const ShowElectionData = () => {
             pagination
           />
         </div>
+        </div>
+        <div className="col-md-6">
+        <div className="table-election text-center">
+          <DataTable
+            title="Perolehan Suara 2019"
+            columns={columns}
+            data={election.filter((row) => {
+              const values = Object.values(row).join(" ").toLowerCase();
+              return values.includes(searchValue.toLowerCase());
+            })}
+            subHeader
+            subHeaderComponent={
+              <div className="box-filter">
+                Search
+                <input className="input-search ms-2" type="search" placeholder="Cari... " value={searchValue} onChange={handleSearch} />
+              </div>
+            }
+            customStyles={customStyles}
+            pagination
+          />
+        </div>
+        </div>
+        </div>
       </div>
     </>
   );
 };
 
-export default ShowElectionData;
+export default ShowElectionDataSplit;
