@@ -12,5 +12,6 @@ import ShowElectionDataSplit from "./Caleg/showElectionDataSplit";
 import ShowElectionDataSplitFour from "./Caleg/showElectionDataSplitFour";
 import UploadFile from "./Admin/uploadFile";
 import ImportFile from "./Admin/importFile";
+import SuccessVerification from "./successVerification";
 
-export { Content, Navbar, LoginComponent, RegisterComponent, UserManagement, SidebarAdmin, SelectedButton, ShowElectionData, ShowElectionDataSplit, ShowElectionDataSplitFour, NavbarAdmin, LoginAdmin, UploadFile, ImportFile };
+export { Content, Navbar, LoginComponent, RegisterComponent, UserManagement, SidebarAdmin, SelectedButton, ShowElectionData, ShowElectionDataSplit, ShowElectionDataSplitFour, NavbarAdmin, LoginAdmin, UploadFile, ImportFile, SuccessVerification };

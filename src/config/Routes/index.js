@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import { Home, Register, Login, Admin, LoginAdminPage, ShowElection } from "../../pages";
+import { Home, Register, Login, Admin, LoginAdminPage, ShowElection, SuccessVerificationPage } from "../../pages";
 import Protected from "./Protected";
 
 function PrivateRoute({ children }) {
@@ -32,6 +32,7 @@ const index = () => {
         <Route path="/login/admin" element={<LoginAdminPage />} />
         <Route path="/admin" element={<Protected><Admin /></Protected>} />
         <Route path="/election/data" element={<PrivateRoute><ShowElection /></PrivateRoute>} />
+        <Route path="/success/verification" element={<SuccessVerificationPage />} />
       </Routes>
     </BrowserRouter>
   );

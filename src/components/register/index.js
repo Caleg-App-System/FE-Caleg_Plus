@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./register.css";
 import IconDaftar from "../../assets/icons/daftar.svg";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { registerActions } from "../../config/redux/actions/authActions";
+import Select from "react-select";
+import { AddressService } from "../../services/addressServices";
 
 const RegisterComponent = () => {
   const history = useNavigate();
@@ -21,8 +23,144 @@ const RegisterComponent = () => {
     dispatch(registerActions(data, history));
   };
 
+  const [province, setProvince] = useState([]);
+  const [selectedProvince, setSelectedProvince] = useState(null);
+  const [regency, setRegency] = useState([]);
+  const [selectedRegency, setSelectedRegency] = useState(null);
+  const [district, setDistrict] = useState([]);
+  const [selectedDistrict, setSelectedDistrict] = useState(null);
+  const [village, setVillage] = useState([]);
+  const [selectedVillage, setSelectedVillage] = useState(null);
+
+  const combinedAddress = `${selectedVillage?.label}, ${selectedDistrict?.label}, ${selectedRegency?.label}, ${selectedProvince?.label}`;
+// const combinedAddressHandler = (e) => {
+//     e.preventDefault();
+//     console.log(combinedAddress);
+//   };
+
+  // First data for province
+  useEffect(() => {
+    AddressService.getAllProvince().then((res) => {
+      setProvince(res.data.data);
+    });
+  }, []);
+
+  // useEffect(() => {
+  //   const { selectedProvince, selectedRegency, selectedDistrict, selectedvillage } = getValues();
+  //   const concentate = `${selectedvillage?.label}, ${selectedDistrict?.label}, ${selectedRegency?.label}, ${selectedProvince?.label}`;
+  //   setCombinedAddress(concentate);
+  //   console.log(concentate);
+  // }, []);
+
+  // useEffect(() => {
+  //   const { selectedProvince, selectedRegency, selectedDistrict, selectedVillage } = getValues();
+  //   const concentate = `${selectedVillage?.label}, ${selectedDistrict?.label}, ${selectedRegency?.label}, ${selectedProvince?.label}`;
+  //   setCombinedAddress(concentate);
+  //   console.log(concentate);
+  // }, [selectedVillage]);
+
+
+  // fetching 
+  const fetchRegency = (provinceId) => {
+    AddressService.getRegency(provinceId).then((res) => {
+      setRegency(res.data.data);
+    });
+  };
+
+  const fetchDistrict = (regencyId) => {
+    AddressService.getDistrict(regencyId).then((res) => {
+      setDistrict(res.data.data);
+    });
+  };
+
+  const fetchVillage = (districtId) => {
+    AddressService.getVillage(districtId).then((res) => {
+      setVillage(res.data.data);
+    });
+  };
+
+  // Options maping
+  const provinceOptions = province.map((province) => ({
+    id: province.id,
+    label: province.name,
+  }));
+
+  const regencyOptions = regency.map((regency) => ({
+    id: regency.id,
+    label: regency.name,
+  }));
+
+  const districtOptions = district.map((district) => ({
+    id: district.id,
+    label: district.name,
+  }));
+
+  const villageOptions = village.map((village) => ({
+    id: village.id,
+    label: village.name,
+  }));
+
+  // Handle change
+  const handleProvinceChange = (selectedOption) => {
+    setSelectedProvince(selectedOption);
+    const provinceId = selectedOption?.id;
+    fetchRegency(provinceId);
+  };
+
+  const handleRegencyChange = (selectedOption) => {
+    setSelectedRegency(selectedOption);
+    const regencyId = selectedOption?.id;
+    fetchDistrict(regencyId);
+  };
+
+  const handleDistrictChange = (selectedOption) => {
+    setSelectedDistrict(selectedOption);
+    const districtId = selectedOption?.id;
+    fetchVillage(districtId);
+  };
+
+  const handleVillageChange = (selectedOption) => {
+    setSelectedVillage(selectedOption);
+  };
+
+  const selectStyles = {
+    // control: (provided, state) => ({
+    //   ...provided,
+    //   background: '#fff',
+    //   borderColor: '#9e9e9e',
+    //   minHeight: '30px',
+    //   height: '30px',
+    //   boxShadow: state.isFocused ? null : null,
+    // }),
+
+    valueContainer: (provided, state) => ({
+      ...provided,
+      height: '20px',
+      padding: '0 0'
+    }),
+
+    input: (provided, state) => ({
+      ...provided,
+      margin: '0px',
+    }),
+    indicatorSeparator: state => ({
+      display: 'none',
+    }),
+    indicatorsContainer: (provided, state) => ({
+      ...provided,
+      height: '20px',
+    }),
+    placeholder: (provided, state) => ({
+      ...provided,
+      color: 'red',
+      fontSize: '14px',
+
+    }),
+  };
+
   return (
     <>
+      
       <div className="content mx-auto my-5 px-5 py-5">
         <div className="container">
           <form className="" onSubmit={handleSubmit(onSubmit)}>
@@ -163,6 +301,52 @@ const RegisterComponent = () => {
                 </div>
               </div>
             </div>
+            {/* <div style={{width: 200, height: 30}}> */}
+      <Select
+        options={provinceOptions}
+        value={selectedProvince}
+        onChange={handleProvinceChange}
+        styles={selectStyles}
+        placeholder=""
+      />
+      {/* </div> */}
+      {/* <div className="m-auto w-50"> */}
+      <Select
+        options={regencyOptions}
+        value={selectedRegency}
+        onChange={handleRegencyChange}
+        styles={selectStyles}
+        placeholder=""
+        isDisabled={!selectedProvince}
+      />
+      {/* </div> */}
+      {/* <div className="m-auto w-50"> */}
+      <Select
+        options={districtOptions}
+        value={selectedDistrict}
+        onChange={handleDistrictChange}
+        styles={selectStyles}
+        placeholder=""
+        isDisabled={!selectedRegency}
+      />
+      {/* </div> */}
+      {/* <div className="m-auto w-50"> */}
+      <Select
+        options={villageOptions}
+        value={selectedVillage}
+        onChange={handleVillageChange}
+        styles={selectStyles}
+        placeholder=""
+        isDisabled={!selectedDistrict}
+      />
+      
+      {/* </div> */}
+            <input
+        type="text"
+        name="address"
+        value={combinedAddress}
+        {...register('address')}
+      />
             <div className="mt-5">
               <button className={dirtyFields && isValid ? "button form-control btn btn-danger button-register mb-3 align-item-center text-white fw-bold" : "button form-control opacity-50 btn btn-danger button-register mb-3 align-item-center text-white fw-bold"} onClick={handleSubmit}>
                 <img src={IconDaftar} alt="icon-daftar" className="icon-daftar" />

@@ -4,5 +4,6 @@ import Login from "./Login";
 import Admin from "./Admin";
 import LoginAdminPage from "./LoginAdmin";
 import ShowElection from "./ShowElection";
+import SuccessVerificationPage from "./SuccessVerification";
 
-export { Home, Register, Login, Admin, LoginAdminPage, ShowElection };
+export { Home, Register, Login, Admin, LoginAdminPage, ShowElection, SuccessVerificationPage };
