@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import { Home, Register, Login, Admin, LoginAdminPage, ShowElection, SuccessVerificationPage } from "../../pages";
+import { Home, Register, Login, Admin, LoginAdminPage, ShowElection, SuccessVerificationPage, NotFound404Page } from "../../pages";
 import Protected from "./Protected";
 
 function PrivateRoute({ children }) {
@@ -26,6 +26,7 @@ const index = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="*" element={<NotFound404Page />} />
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />

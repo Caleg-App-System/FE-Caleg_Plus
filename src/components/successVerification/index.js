@@ -1,8 +1,20 @@
 import React from "react";
 import "./successVerification.css"
 import { Check2Circle } from "react-bootstrap-icons";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { verifyAccountActions } from "../../config/redux/actions/authActions";
 
-const SuccessVerification = () => {
+const SuccessVerification = (props) => {
+const history = useNavigate();
+const dispatch = useDispatch();
+
+  if (props.tokenVerify) {
+    const token={token :props.tokenVerify};
+    dispatch(verifyAccountActions(token, history));
+    // console.log(token);
+}
+
   return (
     <div className="box-verif mx-auto my-5 px-5 py-5 text-center text-white">
       <h1 className="mb-4">Success Verification</h1>
