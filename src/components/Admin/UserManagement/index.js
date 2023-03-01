@@ -61,14 +61,16 @@ const UserManagement = () => {
       sortable: true,
     },
     {
-      name: "Email",
-      selector: (row) => row.email,
+      name: "Alamat",
+      selector: "address",
       sortable: true,
+      cell: row => <div style={{ wordWrap: 'break-word', wordBreak: 'break-word', textAlign: 'left' }}>{row.address}</div>,
     },
     {
       name: "Name",
-      selector: (row) => row.name,
+      selector: "name",
       sortable: true,
+      cell: row => <div style={{ wordWrap: 'break-word', wordBreak: 'break-word', textAlign: 'left' }}>{row.name}</div>,
     },
     {
       name: "Role",
@@ -104,12 +106,32 @@ const UserManagement = () => {
     },
     {
       name: "Aksi",
+      width: "63px",
       cell: (row) => (
-        <button className="btn btn-primary btn-sm" onClick={() => approvalHandler(row.id)}>
-          Acc
-        </button>
+        row.is_verified_role === false ? (
+          <button className="btn btn-primary btn-sm" onClick={() => approvalHandler(row.id)}>
+            Acc
+          </button>
+        ) : (
+          <button className="btn btn-secondary btn-sm" disabled>
+            Acc
+          </button>
+        )
       ),
     },
+    {
+      name: "",
+      cell: (row) => (
+        <>
+        <button className="btn btn-info btn-sm me-3 text-white">
+          Detail
+        </button>
+        <button className="btn btn-success btn-sm">
+          Arsip
+        </button>
+        </>
+      ),
+    }
   ];
 
   return (
@@ -118,7 +140,7 @@ const UserManagement = () => {
         <div className="content-usermanagement px-2 py-2">
           <div className="table-usermanagement text-center">
             <DataTable
-              title="Users"
+              title="DATA USER TERDAFTAR"
               columns={columns}
               data={users.filter((row) => row.username.toLowerCase().includes(filterText.toLowerCase()))}
               subHeader
