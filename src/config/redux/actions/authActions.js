@@ -48,7 +48,7 @@ export const verifyAccountActions = (data, history) => async (dispatch) => {
   try {
       await AuthService.verifyAccount(data);
       SweatAlert('Akun berhasil diverifikasi', 'success');
-      history('/login');
+      history('/success/verification');
   } catch (error) {
       SweatAlert(String(error.response.data.message), 'warning')
   }   
