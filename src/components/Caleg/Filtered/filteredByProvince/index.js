@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
-import "../showElectionData/showElectionData.css"
+import React from "react";
+import { useState, useEffect } from "react";
+import { VoteService } from "../../../../services/voteServices";
 import DataTable from "react-data-table-component";
-import { VoteService } from "../../../services/voteServices";
+import FilterDropdown from "../../filterDropdown";
+import { ValueFiltering } from "../../../../services/valueFiltering";
+import FadeLoader from "react-spinners/FadeLoader";
 
 const customStyles = {
   rows: {
@@ -30,11 +33,6 @@ const columns = [
     name: "NO",
     cell: (row, index) => index + 1,
     width: "80px", //RDT provides index by default
-  },
-  {
-    name: "Provinsi",
-    selector: (row) => row.provinsi,
-    sortable: true,
   },
   {
     name: "Kabupaten",
@@ -96,70 +94,66 @@ const columns = [
   },
 ];
 
-const ShowElectionDataSplit = () => {
+const FilteredByProvince = () => {
   const [election, setElection] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
+  const [pending, setPending] = useState(true);
+  const [filterOption, setFilterOption] = useState("")
+  const [valueProvince, setValueProvince] = useState([])
 
-  const handleSearch = (event) => {
-    setSearchValue(event.target.value);
-  };
+  const filterProvince = valueProvince.map((item) => item.name);
 
   useEffect(() => {
     VoteService.getAllVote().then((res) => {
       setElection(res.data.data.arr);
     });
+    const timeout = setTimeout(() => {
+      setPending(false);
+    }, 2000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    ValueFiltering.getValueProvince().then((res) => {
+      setValueProvince(res.data.data);
+    });
   }, []);
 
   return (
     <>
-      <div className="content-election mx-5 px-2 py-2">
-        <div className="row">
-          <div className="col-md-6">
+      <div className="content-election px-2 py-2">
         <div className="table-election text-center">
+
+
           <DataTable
-            title="Perolehan Suara 2019"
+            title={`Perolehan suara 2019 Provinsi ${filterOption}`}
             columns={columns}
             data={election.filter((row) => {
-              const values = Object.values(row).join(" ").toLowerCase();
-              return values.includes(searchValue.toLowerCase());
+              if (!filterOption) return row
+              return row.provinsi === filterOption
             })}
+            progressPending={pending}
+            progressComponent={
+              <FadeLoader color={'#e49011'}
+                size={150} />}
+            filterOption={filterOption}
             subHeader
             subHeaderComponent={
-              <div className="box-filter">
-                Search
-                <input className="input-search ms-2" type="search" placeholder="Cari... " value={searchValue} onChange={handleSearch} />
-              </div>
+              <>
+                Cari Provinsi: &nbsp;
+                <FilterDropdown
+                  options={filterProvince}
+                  selectedOption={filterOption}
+                  onOptionSelect={setFilterOption}
+                />
+              </>
             }
             customStyles={customStyles}
             pagination
           />
-        </div>
-        </div>
-        <div className="col-md-6">
-        <div className="table-election text-center">
-          <DataTable
-            title="Perolehan Suara 2019"
-            columns={columns}
-            data={election.filter((row) => {
-              const values = Object.values(row).join(" ").toLowerCase();
-              return values.includes(searchValue.toLowerCase());
-            })}
-            subHeader
-            subHeaderComponent={
-              <div className="box-filter">
-                Search
-                <input className="input-search ms-2" type="search" placeholder="Cari... " value={searchValue} onChange={handleSearch} />
-              </div>
-            }
-            customStyles={customStyles}
-            pagination
-          />
-        </div>
-        </div>
         </div>
       </div>
     </>
   );
-};
+}
 
-export default ShowElectionDataSplit;
+export default FilteredByProvince;
