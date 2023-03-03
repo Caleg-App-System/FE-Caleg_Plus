@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
-import "./showElectionData.css";
+import React from "react";
+import { useState, useEffect } from "react";
+import { VoteService } from "../../../../services/voteServices";
 import DataTable from "react-data-table-component";
-import { VoteService } from "../../../services/voteServices";
+import FilterDropdown from "../../filterDropdown";
+import { ValueFiltering } from "../../../../services/valueFiltering";
+import FadeLoader from "react-spinners/FadeLoader";
 
 const customStyles = {
   rows: {
@@ -30,26 +33,6 @@ const columns = [
     name: "NO",
     cell: (row, index) => index + 1,
     width: "80px", //RDT provides index by default
-  },
-  {
-    name: "Provinsi",
-    selector: (row) => row.provinsi,
-    sortable: true,
-  },
-  {
-    name: "Kabupaten",
-    selector: (row) => row.kabupaten,
-    sortable: true,
-  },
-  {
-    name: "Kecamatan",
-    selector: (row) => row.kecamatan,
-    sortable: true,
-  },
-  {
-    name: "Desa",
-    selector: (row) => row.desa,
-    sortable: true,
   },
   {
     name: "TPS",
@@ -96,37 +79,58 @@ const columns = [
   },
 ];
 
-const ShowElectionData = () => {
+const FilteredByVillage = () => {
   const [election, setElection] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
+  const [pending, setPending] = useState(true);
+  const [filterOption, setFilterOption] = useState("")
+  const [valueVillage, setValueVillage] = useState([])
 
-  const handleSearch = (event) => {
-    setSearchValue(event.target.value);
-  };
+  const filterVillage = valueVillage.map((item) => item.name);
 
   useEffect(() => {
     VoteService.getAllVote().then((res) => {
       setElection(res.data.data.arr);
     });
+    const timeout = setTimeout(() => {
+      setPending(false);
+    }, 2000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    ValueFiltering.getValueVillage().then((res) => {
+      setValueVillage(res.data.data);
+    });
   }, []);
 
   return (
     <>
-      <div className="content-election mx-5 px-2 py-2">
+      <div className="content-election px-2 py-2">
         <div className="table-election text-center">
+
+
           <DataTable
-            title="Perolehan Suara 2019"
+            title={`Perolehan suara 2019 Desa/Kelurahan ${filterOption}`}
             columns={columns}
             data={election.filter((row) => {
-              const values = Object.values(row).join(" ").toLowerCase();
-              return values.includes(searchValue.toLowerCase());
+              if (!filterOption) return row
+              return row.desa === filterOption
             })}
+            progressPending={pending}
+            progressComponent={
+              <FadeLoader color={'#e49011'}
+                size={150} />}
+            filterOption={filterOption}
             subHeader
             subHeaderComponent={
-              <div className="box-filter">
-                Search
-                <input className="input-search ms-2" type="search" placeholder="Cari... " value={searchValue} onChange={handleSearch} />
-              </div>
+              <>
+                Cari Desa/Kelurahan: &nbsp;
+                <FilterDropdown
+                  options={filterVillage}
+                  selectedOption={filterOption}
+                  onOptionSelect={setFilterOption}
+                />
+              </>
             }
             customStyles={customStyles}
             pagination
@@ -135,6 +139,6 @@ const ShowElectionData = () => {
       </div>
     </>
   );
-};
+}
 
-export default ShowElectionData;
+export default FilteredByVillage;

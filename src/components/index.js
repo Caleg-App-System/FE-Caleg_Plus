@@ -7,12 +7,15 @@ import SidebarAdmin from "./Admin/sidebarAdmin";
 import NavbarAdmin from "./Admin/navbarAdmin";
 import LoginAdmin from "./Admin/loginAdmin";
 import SelectedButton from "./Caleg/selectedButton";
-import ShowElectionData from "./Caleg/showElectionData";
-import ShowElectionDataSplit from "./Caleg/showElectionDataSplit";
-import ShowElectionDataSplitFour from "./Caleg/showElectionDataSplitFour";
+
+import FilteredButton from "./Caleg/Filtered/filteredButton";
+import FilteredOneView from "./Caleg/Filtered/filteredOneView";
+import FilteredTwoView from "./Caleg/Filtered/filteredTwoView";
+import FilteredFourView from "./Caleg/Filtered/filteredFourView";
+
 import UploadFile from "./Admin/uploadFile";
 import ImportFile from "./Admin/importFile";
 import SuccessVerification from "./successVerification";
 import NotFound404 from "./notFound404";
 
-export { Content, Navbar, LoginComponent, RegisterComponent, UserManagement, SidebarAdmin, SelectedButton, ShowElectionData, ShowElectionDataSplit, ShowElectionDataSplitFour, NavbarAdmin, LoginAdmin, UploadFile, ImportFile, SuccessVerification, NotFound404 };
+export { Content, Navbar, LoginComponent, RegisterComponent, UserManagement, SidebarAdmin, SelectedButton, FilteredOneView, FilteredButton, FilteredTwoView, FilteredFourView, NavbarAdmin, LoginAdmin, UploadFile, ImportFile, SuccessVerification, NotFound404 };
