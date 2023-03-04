@@ -13,6 +13,7 @@ const RegisterComponent = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, dirtyFields, isValid },
     getValues,
   } = useForm();
@@ -20,11 +21,12 @@ const RegisterComponent = () => {
   const dispatch = useDispatch();
   const onSubmit = (data) => {
     console.log(data)
-    dispatch(registerActions(data, history));
+    // dispatch(registerActions(data, history));
   };
 
   const [province, setProvince] = useState([]);
   const [selectedProvince, setSelectedProvince] = useState(null);
+  console.log(selectedProvince)
   const [regency, setRegency] = useState([]);
   const [selectedRegency, setSelectedRegency] = useState(null);
   const [district, setDistrict] = useState([]);
@@ -32,11 +34,39 @@ const RegisterComponent = () => {
   const [village, setVillage] = useState([]);
   const [selectedVillage, setSelectedVillage] = useState(null);
 
-  const combinedAddress = `${selectedVillage?.label}, ${selectedDistrict?.label}, ${selectedRegency?.label}, ${selectedProvince?.label}`;
-// const combinedAddressHandler = (e) => {
-//     e.preventDefault();
-//     console.log(combinedAddress);
-//   };
+  // const [RT, setRT] = useState(null);
+  // console.log(RT)
+
+  // const [combineValue, setCombineValue] = useState(null);
+
+  // const handleAddressChange = (e) => {
+  //   // const { name, value } = e.target;
+  //   // console.log(name, value);
+  //   // setCombinedAddress({ ...combinedAddress, [name]: value });
+  //   const { selectedProvince, selectedRegency, selectedDistrict, selectedVillage } = getValues();
+  //   const concentate = `${selectedVillage?.label}, ${selectedDistrict?.label}, ${selectedRegency?.label}, ${selectedProvince?.label}`;
+  //   setCombinedAddress(concentate);
+  //   console.log(concentate);
+  // };
+
+  let provinceName = selectedProvince?.label;
+  // console.log(provinceName)
+  let regencyName = selectedRegency?.label;
+  // console.log(regencyName)
+  let districtName = selectedDistrict?.label;
+  // console.log(districtName)
+  let villageName = selectedVillage?.label;
+  // console.log(villageName)
+
+  let combinedAddres = `${villageName}, ${districtName}, ${regencyName}, ${provinceName}`;
+  console.log(combinedAddres)
+  // const combinedAddressz = (`${selectedVillage.label}, ${selectedDistrict.label}, ${selectedRegency.label}, ${selectedProvince.label}`);
+  // const combinedAddressHandler = (e) => {
+  //     e.preventDefault();
+  //     console.log(combinedAddress);
+  //   };
+
+  const hidden = ("hello")
 
   // First data for province
   useEffect(() => {
@@ -103,35 +133,39 @@ const RegisterComponent = () => {
   // Handle change
   const handleProvinceChange = (selectedOption) => {
     setSelectedProvince(selectedOption);
+    // setCombineValue(selectedOption && selectedRegency && selectedDistrict && selectedVillage ? `${selectedOption.label}, ${selectedRegency.label}, ${selectedDistrict.label}, ${selectedVillage.label}` : null);
     const provinceId = selectedOption?.id;
     fetchRegency(provinceId);
   };
 
   const handleRegencyChange = (selectedOption) => {
     setSelectedRegency(selectedOption);
+    // setCombineValue(selectedOption && selectedProvince && selectedDistrict && selectedVillage ? `${selectedProvince.label}, ${selectedOption.label},  ${selectedDistrict.label}, ${selectedVillage.label}` : null);
     const regencyId = selectedOption?.id;
     fetchDistrict(regencyId);
   };
 
   const handleDistrictChange = (selectedOption) => {
     setSelectedDistrict(selectedOption);
+    // setCombineValue(selectedOption && selectedProvince && selectedRegency && selectedVillage ? `${selectedProvince.label}, ${selectedRegency.label}, ${selectedOption.label}, ${selectedVillage.label}` : null);
     const districtId = selectedOption?.id;
     fetchVillage(districtId);
   };
 
   const handleVillageChange = (selectedOption) => {
+    // setCombineValue(selectedOption && selectedProvince && selectedRegency && selectedDistrict ? `${selectedProvince.label}, ${selectedRegency.label}, ${selectedDistrict.label}, ${selectedOption.label}` : null);
     setSelectedVillage(selectedOption);
   };
 
   const selectStyles = {
-    // control: (provided, state) => ({
-    //   ...provided,
-    //   background: '#fff',
-    //   borderColor: '#9e9e9e',
-    //   minHeight: '30px',
-    //   height: '30px',
-    //   boxShadow: state.isFocused ? null : null,
-    // }),
+    control: (provided, state) => ({
+      ...provided,
+      // background: '#fff',
+      // borderColor: '#9e9e9e',
+      minHeight: '30px',
+      height: '30px',
+      boxShadow: state.isFocused ? null : null,
+    }),
 
     valueContainer: (provided, state) => ({
       ...provided,
@@ -160,7 +194,7 @@ const RegisterComponent = () => {
 
   return (
     <>
-      
+
       <div className="content mx-auto my-5 px-5 py-5">
         <div className="container">
           <form className="" onSubmit={handleSubmit(onSubmit)}>
@@ -178,7 +212,7 @@ const RegisterComponent = () => {
                       name='name'
                       {...register('name', {
                         required: "Nama harus diisi",
-                      })}/>
+                      })} />
                     {errors.name && <p className="text-danger">{errors.name.message}</p>}
                   </div>
                 </div>
@@ -201,7 +235,7 @@ const RegisterComponent = () => {
                           value: 15,
                           message: "Username terlalu panjang",
                         },
-                      })}/>
+                      })} />
                     {errors.username && <p className="text-danger">{errors.username.message}</p>}
                   </div>
                 </div>
@@ -290,63 +324,156 @@ const RegisterComponent = () => {
                   <label className="mb-3">Registrasi sebagai</label>
                   <div className="col">
                     <select
-                      className="form-select" 
+                      className="form-select"
                       name='role'
                       {...register('role')}>
-                        <option>CALEG</option>
-                        <option>SAKSI</option>
-                        <option>KOORDES</option>
+                      <option>CALEG</option>
+                      <option>SAKSI</option>
+                      <option>KOORDES</option>
                     </select>
                   </div>
                 </div>
               </div>
             </div>
-            {/* <div style={{width: 200, height: 30}}> */}
-      <Select
-        options={provinceOptions}
-        value={selectedProvince}
-        onChange={handleProvinceChange}
-        styles={selectStyles}
-        placeholder=""
-      />
-      {/* </div> */}
-      {/* <div className="m-auto w-50"> */}
-      <Select
-        options={regencyOptions}
-        value={selectedRegency}
-        onChange={handleRegencyChange}
-        styles={selectStyles}
-        placeholder=""
-        isDisabled={!selectedProvince}
-      />
-      {/* </div> */}
-      {/* <div className="m-auto w-50"> */}
-      <Select
-        options={districtOptions}
-        value={selectedDistrict}
-        onChange={handleDistrictChange}
-        styles={selectStyles}
-        placeholder=""
-        isDisabled={!selectedRegency}
-      />
-      {/* </div> */}
-      {/* <div className="m-auto w-50"> */}
-      <Select
-        options={villageOptions}
-        value={selectedVillage}
-        onChange={handleVillageChange}
-        styles={selectStyles}
-        placeholder=""
-        isDisabled={!selectedDistrict}
-      />
-      
-      {/* </div> */}
-            <input
-        type="text"
-        name="address"
-        value={combinedAddress}
-        {...register('address')}
-      />
+            {/* <div className="row d-flex justify-content-center ">
+              <div className="col">
+                <div className="form-group mb-3">
+                  <label className="mb-3">address</label>
+                  <div className="col">
+                    <select
+                      className="form-select"
+                      name='address'
+                      {...register('address')}>
+                      <option>{combinedAddres}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div> */}
+            <div className="row d-flex justify-content-center ">
+              <div>
+                Alamat:
+              </div>
+              <div className="col-5 mb-3">
+                <div style={{ width: 150 }}>
+                  Provinsi
+                  <Select
+                    options={provinceOptions}
+                    value={selectedProvince}
+                    onChange={handleProvinceChange}
+                    styles={selectStyles}
+                    placeholder=""
+                  />
+                </div>
+              </div>
+              <div className="col-5 mb-3">
+                <div style={{ width: 150 }}>
+                  Kabupaten/kota
+                  <Select
+                    options={regencyOptions}
+                    value={selectedRegency}
+                    onChange={handleRegencyChange}
+                    styles={selectStyles}
+                    placeholder=""
+                    isDisabled={!selectedProvince}
+                  />
+                </div>
+              </div>
+              <div className="col-5 mb-3">
+                <div style={{ width: 150 }}>
+                  Kecamatan
+                  <Select
+                    options={districtOptions}
+                    value={selectedDistrict}
+                    onChange={handleDistrictChange}
+                    styles={selectStyles}
+                    placeholder=""
+                    isDisabled={!selectedRegency}
+                  />
+                </div>
+              </div>
+              <div className="col-5 mb-3">
+                <div style={{ width: 150 }}>
+                  Kelurahan/desa
+                  <Select
+                    options={villageOptions}
+                    value={selectedVillage}
+                    onChange={handleVillageChange}
+                    styles={selectStyles}
+                    placeholder=""
+                    isDisabled={!selectedDistrict}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="row d-flex justify-content-center ">
+              <div className="col">
+                <div className="form-group mb-3">
+                  <label className="mb-3"></label>
+                  <div className="col">
+                    <input
+                      type="hidden"
+                      style={{ height: "20px" }}
+                      name="address"
+                      value={combinedAddres}
+                      // ref={register}
+                      {...register('address')}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="row d-flex justify-content-center ">
+              <div className="col">
+                <div className="form-group mb-3">
+                  <label className="mb-3">Email*</label>
+                  <div className="col">
+                    <input
+                      className={errors.email ? "form-control border-danger form-register" : "form-control form-register"}
+                      type="email"
+                      placeholder="Email..."
+                      aria-label=""
+                      name="email"
+                      {...register("email", {
+                        required: "Email harus diisi",
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                          message: "Tolong masukkan email yang benar.",
+                        },
+                      })}
+                    />
+                    {errors.email && <p className="text-danger">{errors.email.message}</p>}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            {/* Masukan RT */}
+            {/* <div className="row d-flex justify-content-center ">
+              <div className="col">
+                <div className="form-group mb-3">
+                  <label className="mb-3">RT</label>
+                  <div className="col">
+                    <input
+                      className="form-control form-register"
+                      type="text"
+                      placeholder="RT mu..."
+                      aria-label=""
+                      name="RT"
+                      onChange={(e) => setRT(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div> */}
+
+            {/* </div> */}
+
+
             <div className="mt-5">
               <button className={dirtyFields && isValid ? "button form-control btn btn-danger button-register mb-3 align-item-center text-white fw-bold" : "button form-control opacity-50 btn btn-danger button-register mb-3 align-item-center text-white fw-bold"} onClick={handleSubmit}>
                 <img src={IconDaftar} alt="icon-daftar" className="icon-daftar" />
