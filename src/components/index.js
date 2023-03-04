@@ -1,6 +1,7 @@
 import Content from "./content";
 import Navbar from "./navbar";
 import RegisterComponent from "./register";
+import RegisterUser from "./registerUser";
 import LoginComponent from "./login";
 import UserManagement from "./Admin/UserManagement";
 import SidebarAdmin from "./Admin/sidebarAdmin";
@@ -18,4 +19,4 @@ import ImportFile from "./Admin/importFile";
 import SuccessVerification from "./successVerification";
 import NotFound404 from "./notFound404";
 
-export { Content, Navbar, LoginComponent, RegisterComponent, UserManagement, SidebarAdmin, SelectedButton, FilteredOneView, FilteredButton, FilteredTwoView, FilteredFourView, NavbarAdmin, LoginAdmin, UploadFile, ImportFile, SuccessVerification, NotFound404 };
+export { Content, Navbar, LoginComponent, RegisterComponent, RegisterUser, UserManagement, SidebarAdmin, SelectedButton, FilteredOneView, FilteredButton, FilteredTwoView, FilteredFourView, NavbarAdmin, LoginAdmin, UploadFile, ImportFile, SuccessVerification, NotFound404 };
