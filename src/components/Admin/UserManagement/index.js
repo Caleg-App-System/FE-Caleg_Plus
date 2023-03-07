@@ -4,16 +4,22 @@ import { UsersService } from "../../../services/usersServices";
 import DataTable from "react-data-table-component";
 import SweatAlertTimer from "../../../config/SweatAlert/timer";
 import { Search } from "react-bootstrap-icons";
+import PuffLoader from "react-spinners/PuffLoader";
 
 const UserManagement = () => {
   const [update, setUpdate] = useState(false);
   const [users, setUsers] = React.useState([]);
   const [filterText, setFilterText] = useState("");
+  const [pending, setPending] = useState(true);
 
   useEffect(() => {
     UsersService.getUsers().then((res) => {
       setUsers(res.data.data);
     });
+    const timeout = setTimeout(() => {
+      setPending(false);
+    }, 2000);
+    return () => clearTimeout(timeout);
   }, [update]);
 
   const approvalHandler = async (id) => {
@@ -123,12 +129,12 @@ const UserManagement = () => {
       name: "",
       cell: (row) => (
         <>
-        <button className="btn btn-info btn-sm me-3 text-white">
-          Detail
-        </button>
-        <button className="btn btn-success btn-sm">
-          Arsip
-        </button>
+          <button className="btn btn-info btn-sm me-3 text-white">
+            Detail
+          </button>
+          <button className="btn btn-success btn-sm">
+            Arsip
+          </button>
         </>
       ),
     }
@@ -151,6 +157,11 @@ const UserManagement = () => {
                 </div>
               }
               customStyles={customStyles}
+              progressPending={pending}
+              progressComponent={
+                <PuffLoader
+                  color={'#e49011'}
+                  size={80} />}
               pagination
             />
           </div>
