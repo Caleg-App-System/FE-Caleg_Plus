@@ -13,60 +13,32 @@ const RegisterComponent = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, dirtyFields, isValid },
     getValues,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      address: "",
+    }
+  });
 
   const dispatch = useDispatch();
   const onSubmit = (data) => {
-    console.log(data)
-    // dispatch(registerActions(data, history));
+    dispatch(registerActions(data, history));
   };
 
   const [province, setProvince] = useState([]);
   const [selectedProvince, setSelectedProvince] = useState(null);
-  console.log(selectedProvince)
   const [regency, setRegency] = useState([]);
   const [selectedRegency, setSelectedRegency] = useState(null);
   const [district, setDistrict] = useState([]);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [village, setVillage] = useState([]);
   const [selectedVillage, setSelectedVillage] = useState(null);
+  const [Rt, setRt] = useState(null);
+  const [Rw, setRw] = useState(null);
 
-  // const [RT, setRT] = useState(null);
-  // console.log(RT)
-
-  // const [combineValue, setCombineValue] = useState(null);
-
-  // const handleAddressChange = (e) => {
-  //   // const { name, value } = e.target;
-  //   // console.log(name, value);
-  //   // setCombinedAddress({ ...combinedAddress, [name]: value });
-  //   const { selectedProvince, selectedRegency, selectedDistrict, selectedVillage } = getValues();
-  //   const concentate = `${selectedVillage?.label}, ${selectedDistrict?.label}, ${selectedRegency?.label}, ${selectedProvince?.label}`;
-  //   setCombinedAddress(concentate);
-  //   console.log(concentate);
-  // };
-
-  let provinceName = selectedProvince?.label;
-  // console.log(provinceName)
-  let regencyName = selectedRegency?.label;
-  // console.log(regencyName)
-  let districtName = selectedDistrict?.label;
-  // console.log(districtName)
-  let villageName = selectedVillage?.label;
-  // console.log(villageName)
-
-  let combinedAddres = `${villageName}, ${districtName}, ${regencyName}, ${provinceName}`;
-  console.log(combinedAddres)
-  // const combinedAddressz = (`${selectedVillage.label}, ${selectedDistrict.label}, ${selectedRegency.label}, ${selectedProvince.label}`);
-  // const combinedAddressHandler = (e) => {
-  //     e.preventDefault();
-  //     console.log(combinedAddress);
-  //   };
-
-  const hidden = ("hello")
+  const [combineValue, setCombineValue] = useState(null);
+  console.log(combineValue)
 
   // First data for province
   useEffect(() => {
@@ -74,21 +46,6 @@ const RegisterComponent = () => {
       setProvince(res.data.data);
     });
   }, []);
-
-  // useEffect(() => {
-  //   const { selectedProvince, selectedRegency, selectedDistrict, selectedvillage } = getValues();
-  //   const concentate = `${selectedvillage?.label}, ${selectedDistrict?.label}, ${selectedRegency?.label}, ${selectedProvince?.label}`;
-  //   setCombinedAddress(concentate);
-  //   console.log(concentate);
-  // }, []);
-
-  // useEffect(() => {
-  //   const { selectedProvince, selectedRegency, selectedDistrict, selectedVillage } = getValues();
-  //   const concentate = `${selectedVillage?.label}, ${selectedDistrict?.label}, ${selectedRegency?.label}, ${selectedProvince?.label}`;
-  //   setCombinedAddress(concentate);
-  //   console.log(concentate);
-  // }, [selectedVillage]);
-
 
   // fetching 
   const fetchRegency = (provinceId) => {
@@ -133,28 +90,38 @@ const RegisterComponent = () => {
   // Handle change
   const handleProvinceChange = (selectedOption) => {
     setSelectedProvince(selectedOption);
-    // setCombineValue(selectedOption && selectedRegency && selectedDistrict && selectedVillage ? `${selectedOption.label}, ${selectedRegency.label}, ${selectedDistrict.label}, ${selectedVillage.label}` : null);
+    setCombineValue(selectedOption && selectedVillage && selectedDistrict && selectedRegency ? `${selectedVillage.label}, ${selectedDistrict.label}, ${selectedRegency.label}, ${selectedOption.label}` : null);
     const provinceId = selectedOption?.id;
     fetchRegency(provinceId);
   };
 
   const handleRegencyChange = (selectedOption) => {
     setSelectedRegency(selectedOption);
-    // setCombineValue(selectedOption && selectedProvince && selectedDistrict && selectedVillage ? `${selectedProvince.label}, ${selectedOption.label},  ${selectedDistrict.label}, ${selectedVillage.label}` : null);
+    setCombineValue(selectedOption && selectedVillage && selectedDistrict && selectedProvince ? `, ${selectedVillage.label},  ${selectedDistrict.label}, ${selectedOption.label}, ${selectedProvince.label}` : null);
     const regencyId = selectedOption?.id;
     fetchDistrict(regencyId);
   };
 
   const handleDistrictChange = (selectedOption) => {
     setSelectedDistrict(selectedOption);
-    // setCombineValue(selectedOption && selectedProvince && selectedRegency && selectedVillage ? `${selectedProvince.label}, ${selectedRegency.label}, ${selectedOption.label}, ${selectedVillage.label}` : null);
+    setCombineValue(selectedOption && selectedVillage && selectedRegency && selectedProvince ? `${selectedVillage.label}, ${selectedOption.label}, ${selectedRegency.label}, ${selectedProvince.label}` : null)
     const districtId = selectedOption?.id;
     fetchVillage(districtId);
   };
 
   const handleVillageChange = (selectedOption) => {
-    // setCombineValue(selectedOption && selectedProvince && selectedRegency && selectedDistrict ? `${selectedProvince.label}, ${selectedRegency.label}, ${selectedDistrict.label}, ${selectedOption.label}` : null);
+    setCombineValue(selectedOption && selectedDistrict && selectedRegency && selectedProvince ? `${selectedOption.label}, ${selectedDistrict.label}, ${selectedRegency.label}, ${selectedProvince.label}` : null)
     setSelectedVillage(selectedOption);
+  };
+
+  const handleRtChange = (e) => {
+    setCombineValue(e.target.value && selectedVillage && selectedDistrict && selectedRegency && selectedProvince ? `RT. ${e.target.value}, ${selectedVillage.label}, ${selectedDistrict.label}, ${selectedRegency.label}, ${selectedProvince.label}` : null);
+    setRt(e.target.value);
+  };
+
+  const handleRwChange = (e) => {
+    setCombineValue(e.target.value && Rt && selectedVillage && selectedDistrict && selectedRegency && selectedProvince ? `RT. ${Rt}, RW. ${e.target.value}, ${selectedVillage.label}, ${selectedDistrict.label}, ${selectedRegency.label}, ${selectedProvince.label}` : null);
+    setRw(e.target.value);
   };
 
   const selectStyles = {
@@ -335,21 +302,6 @@ const RegisterComponent = () => {
                 </div>
               </div>
             </div>
-            {/* <div className="row d-flex justify-content-center ">
-              <div className="col">
-                <div className="form-group mb-3">
-                  <label className="mb-3">address</label>
-                  <div className="col">
-                    <select
-                      className="form-select"
-                      name='address'
-                      {...register('address')}>
-                      <option>{combinedAddres}</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div> */}
             <div className="row d-flex justify-content-center ">
               <div>
                 Alamat:
@@ -405,22 +357,37 @@ const RegisterComponent = () => {
                   />
                 </div>
               </div>
-            </div>
+              {/* Masukan RT */}
 
+            </div>
             <div className="row d-flex justify-content-center ">
-              <div className="col">
-                <div className="form-group mb-3">
-                  <label className="mb-3"></label>
-                  <div className="col">
-                    <input
-                      type="hidden"
-                      style={{ height: "20px" }}
-                      name="address"
-                      value={combinedAddres}
-                      // ref={register}
-                      {...register('address')}
-                    />
-                  </div>
+              <div className="col-5 mb-3">
+                <div style={{ width: 150 }}>
+                  RT
+                  <input
+                    className="form-control form-register address-detail"
+                    style={{ height: "30px" }}
+                    type="text"
+                    placeholder="Ketik angka ..."
+                    aria-label=""
+                    name="RT"
+                    onChange={handleRtChange}
+                  />
+                </div>
+              </div>
+              {/* Masukan RW */}
+              <div className="col-5 mb-3">
+                <div style={{ width: 150 }}>
+                  RW
+                  <input
+                    className="form-control form-register address-detail"
+                    style={{ height: "30px" }}
+                    type="text"
+                    placeholder="Ketik angka ..."
+                    aria-label=""
+                    name="RW"
+                    onChange={handleRwChange}
+                  />
                 </div>
               </div>
             </div>
@@ -428,51 +395,23 @@ const RegisterComponent = () => {
             <div className="row d-flex justify-content-center ">
               <div className="col">
                 <div className="form-group mb-3">
-                  <label className="mb-3">Email*</label>
+                  <label className="mb-3">Alamat yang dimasukkan:</label>
                   <div className="col">
                     <input
-                      className={errors.email ? "form-control border-danger form-register" : "form-control form-register"}
-                      type="email"
-                      placeholder="Email..."
-                      aria-label=""
-                      name="email"
-                      {...register("email", {
-                        required: "Email harus diisi",
-                        pattern: {
-                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                          message: "Tolong masukkan email yang benar.",
-                        },
+                      type="text"
+                      className={errors.address ? "form-control border-danger form-register" : "form-control form-register"}
+                      style={{ height: "30px" }}
+                      name="address"
+                      value={combineValue}
+                      {...register('address', {
+                        required: "Pastikan alamat sudah benar",
                       })}
                     />
-                    {errors.email && <p className="text-danger">{errors.email.message}</p>}
+                    {errors.address && <p className="text-danger">{errors.address.message}</p>}
                   </div>
                 </div>
               </div>
             </div>
-
-
-
-            {/* Masukan RT */}
-            {/* <div className="row d-flex justify-content-center ">
-              <div className="col">
-                <div className="form-group mb-3">
-                  <label className="mb-3">RT</label>
-                  <div className="col">
-                    <input
-                      className="form-control form-register"
-                      type="text"
-                      placeholder="RT mu..."
-                      aria-label=""
-                      name="RT"
-                      onChange={(e) => setRT(e.target.value)}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div> */}
-
-            {/* </div> */}
-
 
             <div className="mt-5">
               <button className={dirtyFields && isValid ? "button form-control btn btn-danger button-register mb-3 align-item-center text-white fw-bold" : "button form-control opacity-50 btn btn-danger button-register mb-3 align-item-center text-white fw-bold"} onClick={handleSubmit}>
