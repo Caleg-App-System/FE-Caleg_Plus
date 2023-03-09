@@ -3,6 +3,7 @@ import "./usermanagement.css";
 import { UsersService } from "../../../services/usersServices";
 import DataTable from "react-data-table-component";
 import SweatAlertTimer from "../../../config/SweatAlert/timer";
+import SweatAlert from "../../../config/SweatAlert";
 import { Search } from "react-bootstrap-icons";
 import PuffLoader from "react-spinners/PuffLoader";
 
@@ -26,6 +27,12 @@ const UserManagement = () => {
     console.log(id);
     await UsersService.approval(id);
     SweatAlertTimer("User Berhasil di Approve", "success");
+    setUpdate(!update);
+  };
+
+  const archivedHandler = async (username) => {
+    const response = await UsersService.archived(username);
+    SweatAlert(response.data.message, 'success');
     setUpdate(!update);
   };
 
@@ -132,7 +139,7 @@ const UserManagement = () => {
           <button className="btn btn-info btn-sm me-3 text-white">
             Detail
           </button>
-          <button className="btn btn-success btn-sm">
+          <button className="btn btn-success btn-sm" onClick={() => archivedHandler(row.username)}>
             Arsip
           </button>
         </>
@@ -148,12 +155,12 @@ const UserManagement = () => {
             <DataTable
               title="DATA USER TERDAFTAR"
               columns={columns}
-              data={users.filter((row) => row.username.toLowerCase().includes(filterText.toLowerCase()))}
+              data={users.filter((row) => row.is_archived === false && row.name && row.name.toLowerCase().includes(filterText.toLowerCase()))}
               subHeader
               subHeaderComponent={
                 <div className="box-filter">
                   <Search></Search>
-                  <input className="input-filter" type="search" placeholder="Cari username" onChange={handleFilter} />
+                  <input className="input-filter" type="search" placeholder="Cari nama user" onChange={handleFilter} />
                 </div>
               }
               customStyles={customStyles}
