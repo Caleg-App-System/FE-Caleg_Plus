@@ -91,7 +91,7 @@ const RegisterComponent = () => {
   const handleProvinceChange = (selectedOption) => {
     setSelectedProvince(selectedOption);
     setCombineValue(selectedOption && selectedVillage && selectedDistrict && selectedRegency ? `${selectedVillage.label}, ${selectedDistrict.label}, ${selectedRegency.label}, ${selectedOption.label}` : null);
-    const provinceId = selectedOption?.id;
+    let provinceId = selectedOption?.id;
     fetchRegency(provinceId);
   };
 
