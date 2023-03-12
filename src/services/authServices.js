@@ -14,6 +14,11 @@ export const AuthService = {
     const email = response.data.data.user.email;
     setHeadersAndStorage(response.data, Username, id, email, Role);
     console.log(Username);
+
+    setTimeout(() => {
+      localStorage.clear();
+    }, 86400000);
+
     // if (data.rememberMe === true) {
     //     setTimeout(() => {
     //         localStorage.removeItem('token');

@@ -74,12 +74,6 @@ const UserManagement = () => {
       sortable: true,
     },
     {
-      name: "Alamat",
-      selector: "address",
-      sortable: true,
-      cell: row => <div style={{ wordWrap: 'break-word', wordBreak: 'break-word', textAlign: 'left' }}>{row.address}</div>,
-    },
-    {
       name: "Name",
       selector: "name",
       sortable: true,
@@ -87,9 +81,23 @@ const UserManagement = () => {
     },
     {
       name: "Role",
-      selector: (row) => row.role,
+      selector: "role",
       sortable: true,
-      width: "100px",
+      cell: row => <div style={{ wordWrap: 'break-word', wordBreak: 'break-word', textAlign: 'left' }}>{row.role}</div>,
+    },
+    {
+      name: "Area Kerja",
+      selector: "working_area",
+      sortable: true,
+      cell: row => <div style={{ wordWrap: 'break-word', wordBreak: 'break-word', textAlign: 'left' }}>{row.working_area ? row.working_area : "N/A"}</div>,
+      conditionalCellStyles: [
+        {
+          when: (row) => row.working_area === null,
+          style: {
+            color: "red",
+          }
+        },
+      ]
     },
     {
       name: "Status Akun",
