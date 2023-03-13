@@ -29,3 +29,25 @@
   align-items: center;
   padding: 20px;
 }
+
+.modal-content {
+  background-color: #ebebeb !important;
+}
+
+.detail-profile .card-one .card-two .profile_img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin: 10px auto;
+  border: 10px solid #ccc;
+  border-radius: 50%;
+}
+
+.detail-profile .card {
+  border-radius: 10px;
+}
+
+.ktp_img {
+  width: 250px;
+  height: 200px;
+}

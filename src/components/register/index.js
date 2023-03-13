@@ -91,21 +91,21 @@ const RegisterComponent = () => {
   const handleProvinceChange = (selectedOption) => {
     setSelectedProvince(selectedOption);
     setCombineValue(selectedOption && selectedVillage && selectedDistrict && selectedRegency ? `${selectedVillage.label}, ${selectedDistrict.label}, ${selectedRegency.label}, ${selectedOption.label}` : null);
-    var provinceId = selectedOption?.id;
+    const provinceId = selectedOption.id;
     fetchRegency(provinceId);
   };
 
   const handleRegencyChange = (selectedOption) => {
     setSelectedRegency(selectedOption);
     setCombineValue(selectedOption && selectedVillage && selectedDistrict && selectedProvince ? `, ${selectedVillage.label},  ${selectedDistrict.label}, ${selectedOption.label}, ${selectedProvince.label}` : null);
-    const regencyId = selectedOption?.id;
+    const regencyId = selectedOption.id;
     fetchDistrict(regencyId);
   };
 
   const handleDistrictChange = (selectedOption) => {
     setSelectedDistrict(selectedOption);
     setCombineValue(selectedOption && selectedVillage && selectedRegency && selectedProvince ? `${selectedVillage.label}, ${selectedOption.label}, ${selectedRegency.label}, ${selectedProvince.label}` : null)
-    const districtId = selectedOption?.id;
+    const districtId = selectedOption.id;
     fetchVillage(districtId);
   };
 

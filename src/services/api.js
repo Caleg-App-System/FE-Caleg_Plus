@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API = axios.create({
   baseURL: "https://caleg-plus.up.railway.app",
+  // baseURL: "http://localhost:8000",
   headers: {
     Accept: "application/json",
     Authorization: `Bearer ${localStorage.getItem("token") || ""}`,

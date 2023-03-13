@@ -6,12 +6,14 @@ import SweatAlertTimer from "../../../config/SweatAlert/timer";
 import SweatAlert from "../../../config/SweatAlert";
 import { Search } from "react-bootstrap-icons";
 import PuffLoader from "react-spinners/PuffLoader";
+import { Bookmarks } from 'react-bootstrap-icons';
 
 const UserManagement = () => {
   const [update, setUpdate] = useState(false);
   const [users, setUsers] = React.useState([]);
   const [filterText, setFilterText] = useState("");
   const [pending, setPending] = useState(true);
+  const [detailValue, setDetailValue] = useState([]);
 
   useEffect(() => {
     UsersService.getUsers().then((res) => {
@@ -35,6 +37,12 @@ const UserManagement = () => {
     SweatAlert(response.data.message, 'success');
     setUpdate(!update);
   };
+
+  const detailHandler = async (id) => {
+    const HitUser = await UsersService.getUsersById(id);
+    console.log(HitUser.data.data);
+    setDetailValue(HitUser.data.data);
+  }
 
   const handleFilter = (e) => {
     setFilterText(e.target.value);
@@ -127,14 +135,14 @@ const UserManagement = () => {
     },
     {
       name: "Aksi",
-      width: "63px",
+      width: "75px",
       cell: (row) => (
         row.is_verified_role === false ? (
-          <button className="btn btn-primary btn-sm" onClick={() => approvalHandler(row.id)}>
+          <button className="btn btn-primary btn-sm w-100" onClick={() => approvalHandler(row.id)}>
             Acc
           </button>
         ) : (
-          <button className="btn btn-secondary btn-sm" disabled>
+          <button className="btn btn-secondary btn-sm w-100" disabled>
             Acc
           </button>
         )
@@ -144,10 +152,10 @@ const UserManagement = () => {
       name: "",
       cell: (row) => (
         <>
-          <button className="btn btn-info btn-sm me-3 text-white">
+          <button className="btn btn-info btn-sm me-3 text-white w-75" onClick={() => detailHandler(row.id)} data-bs-toggle="modal" data-bs-target='#detailModal' >
             Detail
           </button>
-          <button className="btn btn-success btn-sm" onClick={() => archivedHandler(row.username)}>
+          <button className="btn btn-success btn-sm w-75" onClick={() => archivedHandler(row.username)}>
             Arsip
           </button>
         </>
@@ -181,6 +189,91 @@ const UserManagement = () => {
             />
           </div>
         </div>
+
+        {/* Modal detail */}
+        <div className="modal fade" id='detailModal' aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-dialog-centered modal-lg">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">{`Detail personal ${detailValue.name}`}</h5>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <div className="row detail-profile">
+                  <div className="col-lg-4">
+                    <div className="card card-one shadow-sm">
+                      <div className="card-header card-two bg-transparent text-center">
+                        <img className="profile_img mb-2" src={detailValue.photo ? detailValue.photo : "https://i.ibb.co/SyGtPFs/Profile.png"} alt="Profile_Pict" />
+                        <h3>{detailValue.name}</h3>
+                      </div>
+                      <div className="card-body">
+                        <h3 className="mb-0 text-center"><strong className="pr-1">{detailValue.role}</strong></h3>
+                        <h4 className="mb-0 text-center"><strong className="pr-1">{detailValue.working_area}</strong></h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-lg-8">
+                    <div className="card card-one shadow-sm">
+                      <div className="card-header card-two bg-transparent border-0">
+                        <h5 className="mb-0"><Bookmarks size={20} className='me-2' />Informasi umum</h5>
+                      </div>
+                      <div className="card-body pt-0">
+                        <table className="table table-borderless">
+                          <tr>
+                            <th width="30%">Username</th>
+                            <td width="2%">:</td>
+                            <td>{detailValue.username}</td>
+                          </tr>
+                          <tr>
+                            <th width="30%">Email	</th>
+                            <td width="2%">:</td>
+                            <td>{detailValue.email}</td>
+                          </tr>
+                          <tr>
+                            <th width="30%">No. Telp</th>
+                            <td width="2%">:</td>
+                            <td>{detailValue.phone}</td>
+                          </tr>
+                          <tr>
+                            <th width="30%" className="align-top">Alamat</th>
+                            <td width="2%" className="align-top">:</td>
+                            <td>{detailValue.address}</td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                    <div className="card card-one shadow-sm mt-4">
+                      <div className="card-header card-two bg-transparent border-0">
+                        <h5 className="mb-0"><Bookmarks size={20} className='me-2' />Informasi Tambahan</h5>
+                      </div>
+                      <div className="card-body pt-0">
+                        <div className="row">
+                          <div className="col-4">
+                            <p>Email Verifikasi</p>
+                            <div className={detailValue.is_verified_account === true ? "btn btn-info text-white rounded-pill btn-sm" : "btn btn-danger rounded-pill btn-sm"} style={{ width: "90%" }}>{detailValue.is_verified_account === true ? "Verified" : "Unverified"}</div>
+                          </div>
+                          <div className="col-4">
+                            <p>Approval</p>
+                            <div className={detailValue.is_verified_role === true ? "btn btn-info text-white rounded-pill btn-sm" : "btn btn-danger rounded-pill btn-sm"} style={{ width: "90%" }}>{detailValue.is_verified_role === true ? "Approved" : "Unapproved"}</div>
+                          </div>
+                          <div className="col-4">
+                            <p>Status Akun</p>
+                            <div className={detailValue.is_archived === false ? "btn btn-info text-white rounded-pill btn-sm" : "btn btn-danger rounded-pill btn-sm"} style={{ width: "90%" }}>{detailValue.is_archived === false ? "Aktif" : "Nonaktif"}</div>
+                          </div>
+                          <div className="col mt-3">
+                            <p>Foto KTP</p>
+                            <img className="ktp_img" src={detailValue.photo_ktp ? detailValue.photo_ktp : "https://i.ibb.co/DVfpvSK/pngwing-com.png"} alt="KTP_Pict" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* </div> */}
       </main>
     </>
