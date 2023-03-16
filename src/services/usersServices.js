@@ -26,4 +26,9 @@ export const UsersService = {
     const response = await API.put('/update/archivef/' + username);
     return response;
   },
+
+  updateWorkingArea: async (id, detailValue) => {
+    const response = await API.put('/update/working-area/' + id, detailValue);
+    return response;
+  },
 }

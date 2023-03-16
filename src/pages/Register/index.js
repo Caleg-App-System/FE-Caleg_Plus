@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Navbar, RegisterComponent, RegisterUser } from "../../components";
+import { Navbar, RegisterComponent } from "../../components";
 
 const Register = () => {
   return (
