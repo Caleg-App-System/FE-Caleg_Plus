@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./usermanagement.css";
+import { useDispatch } from "react-redux";
 import { UsersService } from "../../../services/usersServices";
 import DataTable from "react-data-table-component";
 import SweatAlertTimer from "../../../config/SweatAlert/timer";
 import SweatAlert from "../../../config/SweatAlert";
 import { Search } from "react-bootstrap-icons";
 import PuffLoader from "react-spinners/PuffLoader";
-import { Bookmarks } from 'react-bootstrap-icons';
+import { Bookmarks, Pencil } from 'react-bootstrap-icons';
 
 const UserManagement = () => {
   const [update, setUpdate] = useState(false);
@@ -14,6 +15,11 @@ const UserManagement = () => {
   const [filterText, setFilterText] = useState("");
   const [pending, setPending] = useState(true);
   const [detailValue, setDetailValue] = useState([]);
+
+  const [blobUrl, setBlobUrl] = useState(null);
+  console.log(blobUrl)
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     UsersService.getUsers().then((res) => {
@@ -40,9 +46,25 @@ const UserManagement = () => {
 
   const detailHandler = async (id) => {
     const HitUser = await UsersService.getUsersById(id);
-    console.log(HitUser.data.data);
+    // console.log(HitUser.data.data);
+
     setDetailValue(HitUser.data.data);
+    // setWorkingArea(HitUser.data.data.working_area)
+    console.log(HitUser.data.data.photo)
+    // const blob = new Blob([HitUser.data.data.photo], { type: 'image/jpeg' });
+    // const blobUrl = URL.createObjectURL(blob);
+    // setBlobUrl(blobUrl);
+    const img = new Buffer.from(HitUser.data.data.photo).toString("base64")
+    console.log(img)
+    setBlobUrl("data:image/png;base64," + img)
   }
+
+  const updateWorkingAreaHandler = async (id) => {
+    const response = await UsersService.updateWorkingArea(id, detailValue);
+    SweatAlert(response.data.message, 'success');
+    setUpdate(!update);
+  }
+  // const base64String = btoa(String.fromCharCode(...new Uint8Array(blobUrl)));
 
   const handleFilter = (e) => {
     setFilterText(e.target.value);
@@ -191,11 +213,15 @@ const UserManagement = () => {
         </div>
 
         {/* Modal detail */}
-        <div className="modal fade" id='detailModal' aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade z-1" id='detailModal' aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered modal-lg">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">{`Detail personal ${detailValue.name}`}</h5>
+                <h5 className="modal-title" id="exampleModalLabel">{`Detail Personal User`}</h5>
+                <button className="btn btn-outline-primary btn-sm rounded-3 button-workingArea" data-bs-toggle="modal" data-bs-target='#WorkingAreaModal' style={detailValue.role === "CALEG" ? { display: "none" } : { display: "inline" }}>
+                  <Pencil size={20} className='me-2' />
+                  Area Kerja
+                </button>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">
@@ -207,15 +233,15 @@ const UserManagement = () => {
                         <h3>{detailValue.name}</h3>
                       </div>
                       <div className="card-body">
-                        <h3 className="mb-0 text-center"><strong className="pr-1">{detailValue.role}</strong></h3>
-                        <h4 className="mb-0 text-center"><strong className="pr-1">{detailValue.working_area}</strong></h4>
+                        <h4 className="mb-0 text-center"><b className="pr-1">{detailValue.role}</b></h4>
+                        <h5 className="mb-0 text-center"><b className="pr-1">{detailValue.working_area}</b></h5>
                       </div>
                     </div>
                   </div>
                   <div className="col-lg-8">
                     <div className="card card-one shadow-sm">
                       <div className="card-header card-two bg-transparent border-0">
-                        <h5 className="mb-0"><Bookmarks size={20} className='me-2' />Informasi umum</h5>
+                        <h5 className="mb-0"><Bookmarks size={20} className='me-2' />Informasi Umum</h5>
                       </div>
                       <div className="card-body pt-0">
                         <table className="table table-borderless">
@@ -268,6 +294,32 @@ const UserManagement = () => {
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Modal WorkingArea */}
+        <div className="modal fade z-1" id='WorkingAreaModal' aria-labelledby="exampleModalLabel2" aria-hidden="true">
+          <div className="modal-dialog modal-dialog-centered modal-md">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">{`Area Kerja ${detailValue.name}`}</h5>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <p className="mb-2">{detailValue.role} :</p>
+                <input type="text"
+                  className="form-control mb-4"
+                  placeholder="Masukkan Area Kerja"
+
+                  value={detailValue.working_area}
+                  onChange={(e) => setDetailValue({ ...detailValue, working_area: e.target.value })}
+                  name="working_area"
+                />
+                <div className="form-group mb-2 d-grid gap-1">
+                  <button className="btn btn-primary text-light rounded-3" onClick={() => updateWorkingAreaHandler(detailValue.id)}>Simpan</button>
                 </div>
               </div>
             </div>
