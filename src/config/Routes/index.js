@@ -13,15 +13,6 @@ function PrivateRoute({ children }) {
   return <Navigate to="/login" />;
 }
 
-function PublicRoute({ children }) {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    return children;
-  }
-  return <Navigate to="/" />;
-}
-
 const index = () => {
   return (
     <BrowserRouter>

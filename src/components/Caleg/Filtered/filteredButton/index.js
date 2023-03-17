@@ -1,8 +1,8 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const FilteredButton = ({ filtered }) => {
-  const filterActive = useSelector((state) => state.filter.show);
+  // const filterActive = useSelector((state) => state.filter.show);
   const dispatch = useDispatch();
 
   return (

@@ -150,7 +150,8 @@ const UserArchived = () => {
             title="DATA USER DIARSIPKAN"
             columns={columns}
             // data={users.filter((row) => row.name && row.name.toLowerCase().includes(filterText.toLowerCase()))}
-            data={users.filter((row) => row.is_archived === true && row.name && row.name.toLowerCase().includes(filterText.toLowerCase()))}
+            // data={users.filter((row) => row.is_archived === true && row.name && row.name.toLowerCase().includes(filterText.toLowerCase()))}
+            data={users.filter((row) => row.is_archived === true)}
             subHeader
             subHeaderComponent={
               <div className="box-filter">

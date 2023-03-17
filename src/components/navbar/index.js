@@ -1,7 +1,7 @@
 import React from "react";
 import "./navbar.css";
-import { LogoBlack  } from "../../assets";
-import { useSelector, useDispatch } from "react-redux";
+import { LogoBlack } from "../../assets";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logoutActions } from "../../config/redux/actions/authActions";
 
@@ -26,15 +26,10 @@ const Navbar = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a className="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Menu Utama
                 </a>
                 <ul className="dropdown-menu">
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Action
-                    </a>
-                  </li>
                   <li>
                     <a className="dropdown-item" href="/election/data">
                       Suara 2019
@@ -42,11 +37,6 @@ const Navbar = () => {
                   </li>
                   <li>
                     <hr className="dropdown-divider" />
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Something else here
-                    </a>
                   </li>
                 </ul>
               </li>

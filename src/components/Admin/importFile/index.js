@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./importFileExcel.css";
 import { useDispatch } from "react-redux";
 import { PostImportExcel } from "../../../config/redux/actions/importActions";
@@ -48,19 +48,19 @@ const UploadFile = () => {
                   <h6 className="m-0 font-weight-bold .text-gray-900">Upload File Data Perolehan Suara</h6>
                 </div>
                 <div className="card-body">
-                    <label className="form-label">
-                      Format nama file: <span className="text-dark">PerolehanSuara_Dapil.xlsx</span>
-                    </label>
-                    <input className="form-control input-file" required type="file" accept=".xlsx" onChange={event => {
-                      const file = event.target.files[0];
-                      setFile(file);
-                    }} />
-                    
-                    <div className="row">
-                      <button type="submit" onClick={handleFileUpload} className="mt-2 ms-3 col-lg-2 btn btn-primary btn-user btn-block">
-                        Upload
-                      </button>
-                    </div>
+                  <label className="form-label">
+                    Format nama file: <span className="text-dark">PerolehanSuara_Dapil.xlsx</span>
+                  </label>
+                  <input className="form-control input-file" required type="file" accept=".xlsx" onChange={event => {
+                    const file = event.target.files[0];
+                    setFile(file);
+                  }} />
+
+                  <div className="row">
+                    <button type="submit" onClick={handleFileUpload} className="mt-2 ms-3 col-lg-2 btn btn-primary btn-user btn-block">
+                      Upload
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
