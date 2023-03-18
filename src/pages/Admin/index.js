@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { UserManagement, UserArchived, SidebarAdmin, NavbarAdmin, UploadFile, ImportFile } from "../../components";
+import { UserManagement, UserArchived, SidebarAdmin, NavbarAdmin, ImportFile } from "../../components";
 
 const Admin = () => {
   const [componentOpen, setComponentOpen] = useState('users')

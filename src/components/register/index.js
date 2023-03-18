@@ -36,6 +36,7 @@ const RegisterComponent = () => {
   const [selectedVillage, setSelectedVillage] = useState(null);
   const [Rt, setRt] = useState(null);
   const [Rw, setRw] = useState(null);
+  console.log(Rw)
 
   const [combineValue, setCombineValue] = useState(null);
   console.log(combineValue)

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./usermanagement.css";
-import { useDispatch } from "react-redux";
 import { UsersService } from "../../../services/usersServices";
 import DataTable from "react-data-table-component";
 import SweatAlertTimer from "../../../config/SweatAlert/timer";
@@ -18,8 +17,6 @@ const UserManagement = () => {
 
   const [blobUrl, setBlobUrl] = useState(null);
   console.log(blobUrl)
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     UsersService.getUsers().then((res) => {
@@ -193,7 +190,8 @@ const UserManagement = () => {
             <DataTable
               title="DATA USER TERDAFTAR"
               columns={columns}
-              data={users.filter((row) => row.is_archived === false && row.name && row.name.toLowerCase().includes(filterText.toLowerCase()))}
+              // data={users.filter((row) => row.is_archived === false && row.name && row.name.toLowerCase().includes(filterText.toLowerCase()))}
+              data={users.filter((row) => row.is_archived === false)}
               subHeader
               subHeaderComponent={
                 <div className="box-filter">
