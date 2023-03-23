@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import "./importFileExcel.css";
+import "./importFileDPT.css";
 import { useDispatch } from "react-redux";
 import { PostImportExcel } from "../../../config/redux/actions/importActions";
 
-const ImportFile = () => {
+const ImportFileDPT = () => {
   const [file, setFile] = useState(null);
   console.log(file);
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const ImportFile = () => {
       <div className="import-file">
         <div className="box">
           <div className="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 className="h3 mb-0 mt-3">Import Data Calon Legislatif dan Perolehan Suara</h1>
+            <h1 className="h3 mb-0 mt-3">Import Data Pemilih Tetap</h1>
           </div>
 
           <div className="row content-form">
@@ -31,11 +31,9 @@ const ImportFile = () => {
                 </div>
                 <div className="card-body">
                   Sebelum mengupload file dokumen, mohon perhatikan aturan dibawah berikut :<li>Format file harus berbentuk excel atau ekstensi xls.</li>
-                  <li>Nama file harus sesuai dengan format yang telah disediakan.</li>
-                  <li>Jika nama filenya tidak sesuai file tidak dapat diupload.</li>
-                  <li>Sebelum mengupload, pastikan isi dari file sesuai dengan format baku yang sudah disediakan.</li>
+
                   <li>
-                    <b>PENTING! </b>Pastikan daftar nama calon legislatif sudah masuk dalam sistem sebelum mengupload file data perolehan suara
+                    <b>PENTING! </b>Pastikan sheet yang akan diupload sudah benar.
                   </li>
                 </div>
               </div>
@@ -45,11 +43,11 @@ const ImportFile = () => {
 
               <div className="card shadow mb-4">
                 <div className="card-header py-3">
-                  <h6 className="m-0 font-weight-bold .text-gray-900">Upload File Data Perolehan Suara</h6>
+                  <h6 className="m-0 font-weight-bold .text-gray-900">Upload File Data Pemilih Tetap</h6>
                 </div>
                 <div className="card-body">
                   <label className="form-label">
-                    Format nama file: <span className="text-dark">PerolehanSuara_Dapil.xlsx</span>
+                    Format nama file: <span className="text-dark">DPT Desa y.xlsx</span>
                   </label>
                   <input className="form-control input-file" required type="file" accept=".xlsx" onChange={event => {
                     const file = event.target.files[0];
@@ -71,4 +69,4 @@ const ImportFile = () => {
   );
 };
 
-export default ImportFile;
+export default ImportFileDPT;

@@ -1,6 +1,6 @@
 import React from "react";
 import "./sidebarAdmin.css";
-import { ClipboardData, Person, BoxArrowRight, Archive } from 'react-bootstrap-icons';
+import { ClipboardData, Person, BoxArrowRight, Archive, Speedometer2, PersonVcard, FileEarmarkPerson } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logoutActions } from "../../../config/redux/actions/authActions";
@@ -23,28 +23,55 @@ const SidebarAdmin = ({ page }) => {
               Dashboard
             </button>
           </li> */}
+            <div className="ms-2 text-secondary">Menu</div>
+            <li className="nav-item">
+              <button className="nav-link btn" onClick={(e) => page('dashboard')}>
+                <Speedometer2 color="black" size={25} className='me-2' />
+                Dashboard
+              </button>
+            </li>
+
+            <div className="ms-2 mt-3 text-secondary">Data</div>
+            <li className="nav-item">
+              <button className="nav-link btn" onClick={(e) => page('dataDPT')}>
+                <PersonVcard color="black" size={25} className='me-2' />
+                Data DPT
+              </button>
+            </li>
+
+            <div className="ms-2 mt-3 text-secondary">Manajamen User</div>
             <li className="nav-item">
               <button className="nav-link btn" onClick={(e) => page('users')}>
-                <Person color="black" size={30} className='me-2' />
+                <Person color="black" size={25} className='me-2' />
                 Data User
               </button>
             </li>
             <li className="nav-item">
-              <button className="nav-link btn" onClick={(e) => page('import')}>
-                <ClipboardData color="black" size={30} className='me-2' />
-                Import Data
-              </button>
-            </li>
-            <li className="nav-item">
               <button className="nav-link btn" onClick={(e) => page('arsip')}>
-                <Archive color="black" size={30} className='me-2' />
+                <Archive color="black" size={25} className='me-2' />
                 User Arsip
               </button>
             </li>
+
+            <div className="ms-2 mt-3 text-secondary">Manajamen File</div>
+            <li className="nav-item">
+              <button className="nav-link btn" onClick={(e) => page('import')}>
+                <ClipboardData color="black" size={25} className='me-2' />
+                Import Suara
+              </button>
+            </li>
+            <li className="nav-item">
+              <button className="nav-link btn" onClick={(e) => page('importDPT')}>
+                <FileEarmarkPerson color="black" size={25} className='me-2' />
+                Import DPT
+              </button>
+            </li>
+
+
             <li className="nav-item">
               <button className="nav-link px-3 btn logout-button" onClick={logoutHandle} >
                 Logout
-                <BoxArrowRight size={30} className='icon-logout ms-2' />
+                <BoxArrowRight size={25} className='icon-logout ms-2' />
               </button>
             </li>
           </ul>
