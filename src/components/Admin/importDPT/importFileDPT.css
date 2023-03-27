@@ -8,3 +8,9 @@
 .input-file {
   height: 35px;
 }
+
+.list-warn {
+  list-style-type: none;
+  margin: 0 0 0 20px;
+  padding: 0;
+}
