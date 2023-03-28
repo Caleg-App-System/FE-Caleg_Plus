@@ -1,6 +1,6 @@
 import React from "react";
 import "./sidebarAdmin.css";
-import { ClipboardData, Person, BoxArrowRight, Archive, Speedometer2, PersonVcard, FileEarmarkPerson } from 'react-bootstrap-icons';
+import { ClipboardData, Person, BoxArrowRight, Archive, Speedometer2, PersonVcard, FileEarmarkPerson, CardChecklist } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logoutActions } from "../../../config/redux/actions/authActions";
@@ -38,18 +38,10 @@ const SidebarAdmin = ({ page }) => {
                 Data DPT
               </button>
             </li>
-
-            <div className="ms-2 mt-3 text-secondary">Manajamen User</div>
             <li className="nav-item">
-              <button className="nav-link btn" onClick={(e) => page('users')}>
-                <Person color="black" size={25} className='me-2' />
-                Data User
-              </button>
-            </li>
-            <li className="nav-item">
-              <button className="nav-link btn" onClick={(e) => page('arsip')}>
-                <Archive color="black" size={25} className='me-2' />
-                User Arsip
+              <button className="nav-link btn" onClick={(e) => page('newDPTData')}>
+                <CardChecklist color="black" size={25} className='me-2' />
+                DPT Baru
               </button>
             </li>
 
@@ -67,6 +59,19 @@ const SidebarAdmin = ({ page }) => {
               </button>
             </li>
 
+            <div className="ms-2 mt-3 text-secondary">Manajamen User</div>
+            <li className="nav-item">
+              <button className="nav-link btn" onClick={(e) => page('users')}>
+                <Person color="black" size={25} className='me-2' />
+                Data User
+              </button>
+            </li>
+            <li className="nav-item">
+              <button className="nav-link btn" onClick={(e) => page('arsip')}>
+                <Archive color="black" size={25} className='me-2' />
+                User Arsip
+              </button>
+            </li>
 
             <li className="nav-item">
               <button className="nav-link px-3 btn logout-button" onClick={logoutHandle} >

@@ -11,6 +11,7 @@ import DashboardAdmin from "./Admin/dashboardAdmin";
 import UploadFile from "./Admin/uploadFile";
 import ImportFile from "./Admin/importFile";
 import ImportFileDPT from "./Admin/importDPT";
+import NewDPTData from "./Admin/newDPTData";
 
 import SelectedButton from "./Caleg/selectedButton";
 import FilteredButton from "./Caleg/Filtered/filteredButton";
@@ -21,4 +22,4 @@ import FilteredFourView from "./Caleg/Filtered/filteredFourView";
 import SuccessVerification from "./successVerification";
 import NotFound404 from "./notFound404";
 
-export { Content, Navbar, LoginComponent, RegisterComponent, UserManagement, UserArchived, SidebarAdmin, SelectedButton, FilteredOneView, FilteredButton, FilteredTwoView, FilteredFourView, NavbarAdmin, LoginAdmin, UploadFile, ImportFile, SuccessVerification, NotFound404, DashboardAdmin, ImportFileDPT };
+export { Content, Navbar, LoginComponent, RegisterComponent, UserManagement, UserArchived, SidebarAdmin, SelectedButton, FilteredOneView, FilteredButton, FilteredTwoView, FilteredFourView, NavbarAdmin, LoginAdmin, UploadFile, ImportFile, SuccessVerification, NotFound404, DashboardAdmin, ImportFileDPT, NewDPTData };
