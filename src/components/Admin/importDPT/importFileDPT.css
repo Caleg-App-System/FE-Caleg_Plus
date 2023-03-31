@@ -1,0 +1,16 @@
+.box {
+  position: absolute;
+  left: 5%;
+  margin-left: 200px;
+  margin-right: 20px;
+}
+
+.input-file {
+  height: 35px;
+}
+
+.list-warn {
+  list-style-type: none;
+  margin: 0 0 0 20px;
+  padding: 0;
+}

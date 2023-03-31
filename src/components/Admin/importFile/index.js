@@ -3,7 +3,7 @@ import "./importFileExcel.css";
 import { useDispatch } from "react-redux";
 import { PostImportExcel } from "../../../config/redux/actions/importActions";
 
-const UploadFile = () => {
+const ImportFile = () => {
   const [file, setFile] = useState(null);
   console.log(file);
   const dispatch = useDispatch();
@@ -71,4 +71,4 @@ const UploadFile = () => {
   );
 };
 
-export default UploadFile;
+export default ImportFile;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { UserManagement, UserArchived, SidebarAdmin, NavbarAdmin, ImportFile } from "../../components";
+import { DashboardAdmin, UserManagement, UserArchived, SidebarAdmin, NavbarAdmin, ImportFile, ImportFileDPT, NewDPTData, DPTData } from "../../components";
 
 const Admin = () => {
   const [componentOpen, setComponentOpen] = useState('users')
@@ -14,9 +14,13 @@ const Admin = () => {
       <div className="container-fluid">
         <div className="row">
           <SidebarAdmin page={handleComponent} />
+          {componentOpen === 'dashboard' && <DashboardAdmin />}
           {componentOpen === 'users' && <UserManagement />}
-          {componentOpen === 'import' && <ImportFile />}
           {componentOpen === 'arsip' && <UserArchived />}
+          {componentOpen === 'import' && <ImportFile />}
+          {componentOpen === 'importDPT' && <ImportFileDPT />}
+          {componentOpen === 'dataDPT' && <DPTData />}
+          {componentOpen === 'newDPTData' && <NewDPTData />}
         </div>
       </div>
     </>

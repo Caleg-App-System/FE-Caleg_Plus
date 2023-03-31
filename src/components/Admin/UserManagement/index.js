@@ -213,7 +213,7 @@ const UserManagement = () => {
         {/* Modal detail */}
         <div className="modal fade z-1" id='detailModal' aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered modal-lg">
-            <div className="modal-content">
+            <div className="modal-content modal-person">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">{`Detail Personal User`}</h5>
                 <button className="btn btn-outline-primary btn-sm rounded-3 button-workingArea" data-bs-toggle="modal" data-bs-target='#WorkingAreaModal' style={detailValue.role === "CALEG" ? { display: "none" } : { display: "inline" }}>

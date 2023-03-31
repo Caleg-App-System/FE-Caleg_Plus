@@ -18,10 +18,10 @@ const index = () => {
     <BrowserRouter>
       <Routes>
         <Route path="*" element={<NotFound404Page />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<LoginAdminPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/login/admin" element={<LoginAdminPage />} />
+        {/* <Route path="/login/admin" element={<LoginAdminPage />} /> */}
         <Route path="/admin" element={<Protected><Admin /></Protected>} />
         <Route path="/election/data" element={<PrivateRoute><ShowElection /></PrivateRoute>} />
         <Route path="/success/verification" element={<SuccessVerificationPage />} />
