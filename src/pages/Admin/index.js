@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { DashboardAdmin, UserManagement, UserArchived, SidebarAdmin, NavbarAdmin, ImportFile, ImportFileDPT, NewDPTData, DPTData } from "../../components";
 
 const Admin = () => {
-  const [componentOpen, setComponentOpen] = useState('users')
+  const [componentOpen, setComponentOpen] = useState('dashboard')
 
   const handleComponent = (e) => {
     setComponentOpen(e)
