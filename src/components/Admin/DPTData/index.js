@@ -11,14 +11,15 @@ const DPTData = () => {
   const [dptDetail, setDptDetail] = useState([]);
   const [tpsName, setTpsName] = useState(null);
   const [desaName, setDesaName] = useState(null);
-  const [filterText, setFilterText] = useState("");
-  console.log(filterText)
+  // const [filterText, setFilterText] = useState("");
 
   const [kecamatan, setKecamatan] = useState([]);
   const [desa, setDesa] = useState([]);
-  console.log(desa)
   const [tps, setTps] = useState([]);
-  console.log(tps)
+
+  const [filterText1, setFilterText1] = useState("");
+  const [filterText2, setFilterText2] = useState("");
+  const [filterText3, setFilterText3] = useState("");
 
   useEffect(() => {
     DptService.getAllDpt().then((response) => {
@@ -40,7 +41,7 @@ const DPTData = () => {
 
   // Get Data Desa By Id
   const getDesaById = async (kecamatanId) => {
-    const response = await DptService.getDesaById(kecamatanId);
+    const response = await DptService.getAllDesaByKecamatanId(kecamatanId);
     setDesa(response.data.data);
   };
 
@@ -52,19 +53,21 @@ const DPTData = () => {
 
   // Handle Change Kecamatan
   const handleKecamatanChange = (selectedOption) => {
+    setFilterText3(selectedOption.label)
     const kecamatanId = selectedOption.id;
     getDesaById(kecamatanId);
   };
 
   // Handle Change Desa
   const handleDesaChange = (selectedOption) => {
+    setFilterText2(selectedOption.label)
     const desaId = selectedOption.id;
     getTpsById(desaId);
   };
 
   // Handle Change Tps
   const handleTpsChange = (selectedOption) => {
-    const tpsId = selectedOption.id;
+    setFilterText1(selectedOption.label)
   };
 
   // Options map for select
@@ -90,8 +93,27 @@ const DPTData = () => {
     setDesaName(response.data.data.tps.desa.name);
   }
 
-  const handleFilter = (e) => {
-    setFilterText(e.target.value);
+  // const handleFilter = (e) => {
+  //   setFilterText(e.target.value);
+  // };
+
+  const customFilter = (rows, columns, filterText1, filterText2, filterText3) => {
+    return rows.filter((row) =>
+      row.tps.name
+        .toString()
+        .toLowerCase()
+        .indexOf(filterText1.toLowerCase()) !== -1
+      &&
+      row.tps.desa.name
+        .toString()
+        .toLowerCase()
+        .indexOf(filterText2.toLowerCase()) !== -1
+      &&
+      row.tps.desa.kecamatan.name
+        .toString()
+        .toLowerCase()
+        .indexOf(filterText3.toLowerCase()) !== -1
+    );
   };
 
   const customStyles = {
@@ -144,7 +166,8 @@ const DPTData = () => {
     },
     {
       name: "TPS",
-      selector: (row) => `${row.tps.name} - ${row.tps.desa.name}`,
+      width: "300px",
+      selector: (row) => `${row.tps.name} - ${row.tps.desa.name}, Kec. ${row.tps.desa.kecamatan.name}`,
       sortable: true
     },
     {
@@ -157,6 +180,8 @@ const DPTData = () => {
       ),
     }
   ]
+
+  const filteredData = customFilter(dptData, columns, filterText1, filterText2, filterText3);
 
   const selectStyles = {
     control: (provided, state) => ({
@@ -201,12 +226,13 @@ const DPTData = () => {
           <DataTable
             title="DATA DAFTAR PEMILIH TETAP"
             columns={columns}
-            data={dptData.filter((row) => row.tps.desa.name.toLowerCase().includes(filterText.toLowerCase()))}
-            // data={dptData}
+            // data={dptData.filter((row) => row.tps.desa.name.toLowerCase().includes(filterText.toLowerCase()))}
+            data={filteredData}
+            noDataComponent="Data tidak ditemukan"
             subHeader
             subHeaderComponent={
               <div className="box-filter-dpt d-flex">
-                {/* <h6 className="me-2">Kecamatan :</h6>
+                <h6 className="me-2">Kecamatan :</h6>
                 <Select
                   options={kecamatanOptions}
                   onChange={handleKecamatanChange}
@@ -217,14 +243,15 @@ const DPTData = () => {
                   options={desaOptions}
                   onChange={handleDesaChange}
                   styles={selectStyles}
+                  isDisabled={filterText3 === ""}
                 />
                 <h6 className="ms-5 me-2">TPS :</h6>
                 <Select
                   options={tpsOptions}
                   onChange={handleTpsChange}
                   styles={selectStyles}
-                /> */}
-                <input className="input-filter" type="search" placeholder="Cari nama desa" onChange={handleFilter} />
+                  isDisabled={filterText2 === ""}
+                />
               </div>
             }
             customStyles={customStyles}

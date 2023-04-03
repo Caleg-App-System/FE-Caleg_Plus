@@ -15,12 +15,12 @@ export const DptService = {
     const response = await API.get("/kecamatan/getall");
     return response;
   },
-  getDesaById: async (kecamatanId) => {
-    const response = await API.get(`/desa/getById/${kecamatanId}`);
+  getAllDesaByKecamatanId: async (kecamatanId) => {
+    const response = await API.get(`/desa/getAllByKecamatanId/${kecamatanId}`);
     return response;
   },
   getTpsById: async (desaId) => {
-    const response = await API.get(`/tps/getById/${desaId}`);
+    const response = await API.get(`/tps/getAllByDesaId/${desaId}`);
     return response;
   },
 };
