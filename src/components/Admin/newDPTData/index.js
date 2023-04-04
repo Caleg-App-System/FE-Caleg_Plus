@@ -39,7 +39,7 @@ const NewDPTData = () => {
         fontSize: "15px",
         paddingLeft: "8px", // override the cell padding for head cells
         paddingRight: "8px",
-        backgroundColor: "#e49011",
+        backgroundColor: "#62CDFF",
         color: "#fff",
       },
     },
