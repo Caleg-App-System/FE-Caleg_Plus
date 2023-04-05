@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  FE-Caleg_Plus:
+    image: "fe-caleg-plus"
+    user: root
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: "FE-Caleg_Plus"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      # - ./app/node_modules:/app/node_modules
+      # - ./tsg-daily-fe/node_modules:/app/node_modules
+    command: sh ./run.sh
+    ports:
+      - "2002:3000"
+    environment:
+      NODE_ENV: development
+      # ./tsg-daily-fe/node_modules: /app/node_modules
+    networks:
+      - fe-caleg-plus
+networks:
+  fe-caleg-plus:
+    name: fe-caleg-plus
+    driver: bridge
+    attachable: false
