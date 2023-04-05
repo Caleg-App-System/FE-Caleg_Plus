@@ -14,7 +14,7 @@ services:
       # - ./tsg-daily-fe/node_modules:/app/node_modules
     command: sh ./run.sh
     ports:
-      - "2002:3000"
+      - "3000:3000"
     environment:
       NODE_ENV: development
       # ./tsg-daily-fe/node_modules: /app/node_modules
