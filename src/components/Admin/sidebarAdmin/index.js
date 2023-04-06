@@ -4,30 +4,14 @@ import { ClipboardData, Person, BoxArrowRight, Archive, Speedometer2, PersonVcar
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logoutActions } from "../../../config/redux/actions/authActions";
-import { DptService } from "../../../services/dptServices";
 
 const SidebarAdmin = ({ page }) => {
   const history = useNavigate();
   const dispatch = useDispatch();
-  const [newDptData, setNewDptData] = useState([]);
-  const [update, setUpdate] = useState(false);
-  const [lengthNotification, setLengthNotification] = useState(0);
 
   const logoutHandle = () => {
     dispatch(logoutActions(history, 'admin'));
   }
-
-  useEffect(() => {
-    DptService.getAllDpt().then((response) => {
-      // setNewDptData(response.data.data);
-      const filterNewDpt = response.data.data.filter((row) => row.is_new === true)
-      const length = filterNewDpt.length;
-      setLengthNotification(length);
-      setUpdate(!update);
-    });
-  }, [update]);
-
-
 
   return (
     <>
