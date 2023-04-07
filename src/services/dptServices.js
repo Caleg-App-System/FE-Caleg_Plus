@@ -22,7 +22,7 @@ export const DptService = {
   },
 
   approveDpp: async (id) => {
-    const response = await API.get(`/dpp/approve/${id}`);
+    const response = await API.put(`/dpp/approve/${id}`);
     return response;
   },
 
