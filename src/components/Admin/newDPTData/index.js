@@ -11,7 +11,7 @@ const NewDPTData = () => {
   const [desaName, setDesaName] = useState(null);
 
   useEffect(() => {
-    DptService.getAllDpt().then((response) => {
+    DptService.getNewDpt().then((response) => {
       setNewDptData(response.data.data);
     });
     const timeout = setTimeout(() => {
@@ -103,7 +103,7 @@ const NewDPTData = () => {
             title="DATA DAFTAR PEMILIH BARU"
             columns={columns}
             // data={dptData.filter((row) => row.tps.desa.name.toLowerCase().includes(filterText.toLowerCase()))}
-            data={newDptData.filter((row) => row.is_new === true)}
+            data={newDptData}
             noDataComponent="Data DPT baru tidak ditemukan"
             customStyles={customStyles}
             progressPending={pending}
