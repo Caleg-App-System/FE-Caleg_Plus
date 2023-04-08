@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { DashboardAdmin, UserManagement, UserArchived, SidebarAdmin, NavbarAdmin, ImportFile, ImportFileDPT, NewDPTData, DPTData } from "../../components";
+import { DashboardAdmin, UserManagement, UserArchived, SidebarAdmin, NavbarAdmin, ImportFile, ImportFileDPT, NewDPTData, DPTData, DPPData } from "../../components";
 
 const Admin = () => {
   const [componentOpen, setComponentOpen] = useState('dashboard')
@@ -19,6 +19,7 @@ const Admin = () => {
           {componentOpen === 'arsip' && <UserArchived />}
           {componentOpen === 'import' && <ImportFile />}
           {componentOpen === 'importDPT' && <ImportFileDPT />}
+          {componentOpen === 'dataDPP' && <DPPData />}
           {componentOpen === 'dataDPT' && <DPTData />}
           {componentOpen === 'newDPTData' && <NewDPTData />}
         </div>

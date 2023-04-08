@@ -1,33 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "./sidebarAdmin.css";
-import { ClipboardData, Person, BoxArrowRight, Archive, Speedometer2, PersonVcard, FileEarmarkPerson, CardChecklist } from 'react-bootstrap-icons';
+import { ClipboardData, Person, BoxArrowRight, Archive, Speedometer2, PersonVcard, FileEarmarkPerson, CardChecklist, PersonVideo2, PersonVideo3 } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logoutActions } from "../../../config/redux/actions/authActions";
-import { DptService } from "../../../services/dptServices";
 
 const SidebarAdmin = ({ page }) => {
   const history = useNavigate();
   const dispatch = useDispatch();
-  const [newDptData, setNewDptData] = useState([]);
-  const [update, setUpdate] = useState(false);
-  const [lengthNotification, setLengthNotification] = useState(0);
 
   const logoutHandle = () => {
     dispatch(logoutActions(history, 'admin'));
   }
-
-  useEffect(() => {
-    DptService.getAllDpt().then((response) => {
-      // setNewDptData(response.data.data);
-      const filterNewDpt = response.data.data.filter((row) => row.is_new === true)
-      const length = filterNewDpt.length;
-      setLengthNotification(length);
-      setUpdate(!update);
-    });
-  }, [update]);
-
-
 
   return (
     <>
@@ -50,6 +34,12 @@ const SidebarAdmin = ({ page }) => {
 
             <div className="ms-2 mt-3 text-secondary">Data</div>
             <li className="nav-item">
+              <button className="nav-link btn" onClick={(e) => page('dataDPP')}>
+                <PersonVideo2 color="black" size={25} className='me-2' />
+                Data DPP
+              </button>
+            </li>
+            <li className="nav-item">
               <button className="nav-link btn" onClick={(e) => page('dataDPT')}>
                 <PersonVcard color="black" size={25} className='me-2' />
                 Data DPT
@@ -59,14 +49,14 @@ const SidebarAdmin = ({ page }) => {
               <button className="nav-link btn" onClick={(e) => page('newDPTData')}>
                 <CardChecklist color="black" size={25} className='me-2' />
                 DPT Baru
-                {lengthNotification === 0 ? (
+                {/* {lengthNotification === 0 ? (
                   ""
                 ) : (
                   <span class="badge rounded-pill text-bg-danger ms-2">
                     {lengthNotification}
                     <span class="visually-hidden">unread messages</span>
                   </span>
-                )}
+                )} */}
               </button>
             </li>
 

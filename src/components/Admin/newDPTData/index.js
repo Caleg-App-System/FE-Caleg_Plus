@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { DptService } from "../../../services/dptServices";
 import DataTable from "react-data-table-component";
 import PulseLoader from "react-spinners/PulseLoader";
+import SweatAlertTimer from "../../../config/SweatAlert/timer";
 
 const NewDPTData = () => {
+  const [update, setUpdate] = useState(false);
   const [newDptData, setNewDptData] = useState([]);
   const [pending, setPending] = useState(true);
   const [newDptDetail, setNewDptDetail] = useState([]);
@@ -11,7 +13,7 @@ const NewDPTData = () => {
   const [desaName, setDesaName] = useState(null);
 
   useEffect(() => {
-    DptService.getAllDpt().then((response) => {
+    DptService.getNewDpt().then((response) => {
       setNewDptData(response.data.data);
     });
     const timeout = setTimeout(() => {
@@ -19,13 +21,20 @@ const NewDPTData = () => {
     }
       , 1000);
     return () => clearTimeout(timeout);
-  }, []);
+  }, [update]);
 
   const newDptDetailHandler = async (id) => {
     const response = await DptService.getDptById(id);
     setNewDptDetail(response.data.data);
     setTpsName(response.data.data.tps.name);
     setDesaName(response.data.data.tps.desa.name);
+  };
+
+  const approveDpt = async (id) => {
+    console.log("button acc clicked")
+    const response = await DptService.approveDpp(id);
+    SweatAlertTimer(response.data.message, "success", 2000);
+    setUpdate(!update);
   };
 
   const customStyles = {
@@ -85,14 +94,29 @@ const NewDPTData = () => {
     },
     {
       name: "Aksi",
-      width: "150px",
+      width: "70px",
+      cell: (row) => (
+        row.is_acc === false ? (
+          <button className="btn btn-success btn-sm" onClick={() => approveDpt(row.id)}>
+            Acc
+          </button>
+        ) : (
+          <button className="btn btn-secondary btn-sm" disabled>
+            Acc
+          </button>
+        )
+
+      ),
+    },
+    {
+      name: "",
+      width: "100px",
       cell: (row) => (
         <div className="d-flex">
-          <button className="btn btn-info btn-sm me-3 text-white" onClick={() => newDptDetailHandler(row.id)} data-bs-toggle="modal" data-bs-target='#detailNewDPT'>Detail</button>
-          <button className="btn btn-success btn-sm text-white">Acc</button>
+          <button className="btn btn-info btn-sm text-white" onClick={() => newDptDetailHandler(row.id)} data-bs-toggle="modal" data-bs-target='#detailNewDPT'>Detail</button>
         </div>
       ),
-    }
+    },
   ]
 
   return (
@@ -103,7 +127,7 @@ const NewDPTData = () => {
             title="DATA DAFTAR PEMILIH BARU"
             columns={columns}
             // data={dptData.filter((row) => row.tps.desa.name.toLowerCase().includes(filterText.toLowerCase()))}
-            data={newDptData.filter((row) => row.is_new === true)}
+            data={newDptData}
             noDataComponent="Data DPT baru tidak ditemukan"
             customStyles={customStyles}
             progressPending={pending}

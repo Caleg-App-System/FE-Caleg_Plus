@@ -11,6 +11,21 @@ export const DptService = {
     return response;
   },
 
+  getNewDpt: async () => {
+    const response = await API.get("/dpp/getallNewDPT");
+    return response;
+  },
+
+  getAllDpp: async () => {
+    const response = await API.get("/dpp/getallDPP");
+    return response;
+  },
+
+  approveDpp: async (id) => {
+    const response = await API.put(`/dpp/approve/${id}`);
+    return response;
+  },
+
   getAllKecamatan: async () => {
     const response = await API.get("/kecamatan/getall");
     return response;
