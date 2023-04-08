@@ -2,8 +2,8 @@ import axios from "axios";
 
 const API = axios.create({
   // baseURL: "https://calegplus-dev.up.railway.app",
-  baseURL: "http://localhost:8000",
-  // baseURL: "http://be.bitingku.com",
+  // baseURL: "http://localhost:8000",
+  baseURL: "http://be.bitingku.com",
   headers: {
     Accept: "application/json",
     Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
