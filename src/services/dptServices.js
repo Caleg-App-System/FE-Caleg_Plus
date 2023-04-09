@@ -38,4 +38,8 @@ export const DptService = {
     const response = await API.get(`/tps/getAllByDesaId/${desaId}`);
     return response;
   },
+  countDptByTpsId: async (tpsId) => {
+    const response = await API.get(`/dpp/count/${tpsId}`);
+    return response;
+  },
 };

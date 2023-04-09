@@ -17,6 +17,9 @@ const DPTData = () => {
   const [desa, setDesa] = useState([]);
   const [tps, setTps] = useState([]);
 
+  const [countByTpsId, setCountByTpsId] = useState([]);
+  console.log(countByTpsId);
+
   const [filterText1, setFilterText1] = useState("");
   const [filterText2, setFilterText2] = useState("");
   const [filterText3, setFilterText3] = useState("");
@@ -28,7 +31,7 @@ const DPTData = () => {
     const timeout = setTimeout(() => {
       setPending(false);
     }
-      , 5000);
+      , 1000);
     return () => clearTimeout(timeout);
   }, []);
 
@@ -51,6 +54,11 @@ const DPTData = () => {
     setTps(response.data.data);
   };
 
+  const countTpsById = async (tpsId) => {
+    const response = await DptService.countDptByTpsId(tpsId);
+    setCountByTpsId(response.data.data);
+  };
+
   // Handle Change Kecamatan
   const handleKecamatanChange = (selectedOption) => {
     setFilterText3(selectedOption.label)
@@ -68,6 +76,9 @@ const DPTData = () => {
   // Handle Change Tps
   const handleTpsChange = (selectedOption) => {
     setFilterText1(selectedOption.label)
+    const tpsId = selectedOption.id;
+    console.log(tpsId)
+    countTpsById(tpsId);
   };
 
   // Options map for select
@@ -127,7 +138,8 @@ const DPTData = () => {
         fontSize: "15px",
         paddingLeft: "8px", // override the cell padding for head cells
         paddingRight: "8px",
-        backgroundColor: "#d3d3d3",
+        backgroundColor: "#FF8C00",
+        color: "#fff",
       },
     },
     cells: {
@@ -181,6 +193,15 @@ const DPTData = () => {
     }
   ]
 
+  const conditionalRowStyles = [
+    {
+      when: row => row.is_check === true,
+      style: {
+        backgroundColor: '#FCCF80',
+      }
+    },
+  ];
+
   const filteredData = customFilter(dptData, columns, filterText1, filterText2, filterText3);
 
   const selectStyles = {
@@ -229,30 +250,34 @@ const DPTData = () => {
             // data={dptData.filter((row) => row.tps.desa.name.toLowerCase().includes(filterText.toLowerCase()))}
             data={filteredData}
             noDataComponent="Data tidak ditemukan"
+            conditionalRowStyles={conditionalRowStyles}
             subHeader
             subHeaderComponent={
-              <div className="box-filter-dpt d-flex">
-                <h6 className="me-2">Kecamatan :</h6>
-                <Select
-                  options={kecamatanOptions}
-                  onChange={handleKecamatanChange}
-                  styles={selectStyles}
-                />
-                <h6 className="ms-5 me-2">Desa :</h6>
-                <Select
-                  options={desaOptions}
-                  onChange={handleDesaChange}
-                  styles={selectStyles}
-                  isDisabled={filterText3 === ""}
-                />
-                <h6 className="ms-5 me-2">TPS :</h6>
-                <Select
-                  options={tpsOptions}
-                  onChange={handleTpsChange}
-                  styles={selectStyles}
-                  isDisabled={filterText2 === ""}
-                />
-              </div>
+              <>
+                <div className="box-filter-dpt d-flex">
+                  {/* <h6 className="me-5" style={filterText2 === "" ? { color: "white" } : { color: "black" }}>Total:{countByTpsId.count}</h6> */}
+                  <h6 className="me-2">Kecamatan :</h6>
+                  <Select
+                    options={kecamatanOptions}
+                    onChange={handleKecamatanChange}
+                    styles={selectStyles}
+                  />
+                  <h6 className="ms-5 me-2">Desa :</h6>
+                  <Select
+                    options={desaOptions}
+                    onChange={handleDesaChange}
+                    styles={selectStyles}
+                    isDisabled={filterText3 === ""}
+                  />
+                  <h6 className="ms-5 me-2">TPS :</h6>
+                  <Select
+                    options={tpsOptions}
+                    onChange={handleTpsChange}
+                    styles={selectStyles}
+                    isDisabled={filterText2 === ""}
+                  />
+                </div>
+              </>
             }
             customStyles={customStyles}
             progressPending={pending}
