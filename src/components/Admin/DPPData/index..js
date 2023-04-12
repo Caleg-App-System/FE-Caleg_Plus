@@ -170,7 +170,7 @@ const DPPData = () => {
       width: "100px",
       cell: (row) => (
         <div className="d-flex">
-          <button className="btn btn-info btn-sm me-3 text-white" onClick={() => dppDetailHandler(row.id)} data-bs-toggle="modal" data-bs-target='#detailDPT'>Detail</button>
+          <button className="btn btn-info btn-sm me-3 text-white" onClick={() => dppDetailHandler(row.id)} data-bs-toggle="modal" data-bs-target='#detailDPP'>Detail</button>
         </div>
       ),
     }
@@ -262,11 +262,11 @@ const DPPData = () => {
         </div>
 
         {/* Detail DPT */}
-        <div className="modal fade" id="detailDPT" tabIndex="-1" role="dialog" aria-labelledby="detailDPTLabel" aria-hidden="true">
+        <div className="modal fade" id="detailDPP" tabIndex="-1" role="dialog" aria-labelledby="detailDPTLabel" aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" id="detailDPTLabel">Detail DPP</h5>
+                <h5 className="modal-title" id="detailDPTLabel">Detail Pemilih Potensial</h5>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
               </div>
@@ -304,7 +304,7 @@ const DPPData = () => {
                           <h5 className="value fw-semibold mb-4">{dppDetail.address}</h5>
                           <div className="title text-secondary">Disabilitas</div>
                           <h5 className="value fw-semibold mb-4">
-                            {dppDetail.disability === "0" ? "Tidak"
+                            {dppDetail.disability === "0" || dppDetail.disability === null ? "Tidak"
                               :
                               dppDetail.disability === "1" ? "Tuna Daksa"
                                 :
@@ -321,11 +321,11 @@ const DPPData = () => {
                           <div className="title text-secondary">TPS</div>
                           <h5 className="value fw-semibold mb-4">{`${tpsName} - ${desaName}`}</h5>
                           <div className="title text-secondary">Foto KTP</div>
-                          <img className="ktp_img" src="https://i.ibb.co/DVfpvSK/pngwing-com.png" alt="KTP" />
+                          {dppDetail.photo_KTP === "" || dppDetail.photo_KTP === null ? <h5 className="value fw-semibold mb-4 text-warning">Belum Ada</h5> : <img className="ktp_img" src={`data:image/jpeg;base64,${dppDetail.photo_KTP}`} alt="Foto KTP" />}
                         </div>
                         <div className="col-lg-12">
                           <div className="title text-secondary">Foto Kartu Keluarga</div>
-                          <img className="ktp_img" src="" alt="KK" />
+                          {dppDetail.photo_KK === "" || dppDetail.photo_KK === null ? <h5 className="value fw-semibold mb-4">-</h5> : <img className="ktp_img" src={`data:image/jpeg;base64,${dppDetail.photo_KK}`} alt="Foto KK" />}
                         </div>
                       </div>
                     </div>
