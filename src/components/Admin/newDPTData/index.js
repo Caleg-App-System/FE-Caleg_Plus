@@ -146,7 +146,7 @@ const NewDPTData = () => {
         <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="detailDPTLabel">Detail DPT Baru</h5>
+              <h5 className="modal-title" id="detailDPTLabel">Detail Pemilih Tetap / Potensial Baru</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close">
               </button>
             </div>
@@ -201,7 +201,7 @@ const NewDPTData = () => {
                         <div className="title text-secondary">TPS</div>
                         <h5 className="value fw-semibold mb-4">{`${tpsName} - ${desaName}`}</h5>
                         <div className="title text-secondary">Foto KTP</div>
-                        <img className="ktp_img" src={`data:image/jpeg;base64,${newDptDetail.photo_KTP}`} alt="Foto KTP" />
+                        {newDptDetail.photo_KTP === "" || newDptDetail.photo_KTP === null ? <h5 className="value fw-semibold mb-4 text-warning">Belum Ada</h5> : <img className="ktp_img" src={`data:image/jpeg;base64,${newDptDetail.photo_KTP}`} alt="Foto KTP" />}
                       </div>
                       <div className="col-lg-12">
                         <div className="title text-secondary">Foto Kartu Keluarga</div>
