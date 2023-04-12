@@ -67,11 +67,6 @@ const NewDPTData = () => {
       width: "50px"
     },
     {
-      name: "NO KK",
-      selector: (row) => row.no_KK,
-      sortable: true
-    },
-    {
       name: "NIK",
       selector: (row) => row.nik,
       sortable: true
@@ -93,10 +88,16 @@ const NewDPTData = () => {
       sortable: true
     },
     {
+      name: "Petugas",
+      width: "250px",
+      selector: (row) => `${row.user.name} - ${row.user.role} ${row.user.working_area}`,
+      sortable: true
+    },
+    {
       name: "Aksi",
       width: "70px",
       cell: (row) => (
-        row.is_acc === false ? (
+        row.is_acc === false || row.is_acc === null ? (
           <button className="btn btn-success btn-sm" onClick={() => approveDpt(row.id)}>
             Acc
           </button>
@@ -183,7 +184,7 @@ const NewDPTData = () => {
                         <h5 className="value fw-semibold mb-4">{newDptDetail.address}</h5>
                         <div className="title text-secondary">Disabilitas</div>
                         <h5 className="value fw-semibold mb-4">
-                          {newDptDetail.disability === "0" ? "Tidak"
+                          {newDptDetail.disability === "0" || newDptDetail.disability === null ? "Tidak"
                             :
                             newDptDetail.disability === "1" ? "Tuna Daksa"
                               :
@@ -200,11 +201,11 @@ const NewDPTData = () => {
                         <div className="title text-secondary">TPS</div>
                         <h5 className="value fw-semibold mb-4">{`${tpsName} - ${desaName}`}</h5>
                         <div className="title text-secondary">Foto KTP</div>
-                        <img className="ktp_img" src="https://i.ibb.co/DVfpvSK/pngwing-com.png" alt="KTP" />
+                        <img className="ktp_img" src={`data:image/jpeg;base64,${newDptDetail.photo_KTP}`} alt="Foto KTP" />
                       </div>
                       <div className="col-lg-12">
                         <div className="title text-secondary">Foto Kartu Keluarga</div>
-                        <img className="ktp_img" src="" alt="KK" />
+                        {newDptDetail.photo_KK === "" ? <h5 className="value fw-semibold mb-4">-</h5> : <img className="ktp_img" src={`data:image/jpeg;base64,${newDptDetail.photo_KK}`} alt="Foto KK" />}
                       </div>
                     </div>
                   </div>
