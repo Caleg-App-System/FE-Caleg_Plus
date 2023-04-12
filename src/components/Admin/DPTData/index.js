@@ -295,7 +295,7 @@ const DPTData = () => {
         <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="detailDPTLabel">Detail DPT</h5>
+              <h5 className="modal-title" id="detailDPTLabel">Detail Pemilih Tetap</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close">
               </button>
             </div>
@@ -317,6 +317,8 @@ const DPTData = () => {
                         <h5 className="value fw-semibold mb-4">{dptDetail.dob}</h5>
                         <div className="title text-secondary">Jenis Kelamin</div>
                         <h5 className="value fw-semibold mb-4">{dptDetail.gender === "L" ? "Laki-laki" : "Perempuan"}</h5>
+                      </div>
+                      <div className="col-lg-6">
                         <div className="title text-secondary">Status</div>
                         <h5 className="value fw-semibold mb-4">
                           {dptDetail.marital_status === "B" ? "Belum Kawin"
@@ -327,8 +329,6 @@ const DPTData = () => {
                                 :
                                 "-"}
                         </h5>
-                      </div>
-                      <div className="col-lg-6">
                         <div className="title text-secondary">Alamat</div>
                         <h5 className="value fw-semibold mb-4">{dptDetail.address}</h5>
                         <div className="title text-secondary">Disabilitas</div>
@@ -349,12 +349,6 @@ const DPTData = () => {
                         <h5 className="value fw-semibold mb-4">{dptDetail.keterangan ? dptDetail.keterangan : "-"}</h5>
                         <div className="title text-secondary">TPS</div>
                         <h5 className="value fw-semibold mb-4">{`${tpsName} - ${desaName}`}</h5>
-                        <div className="title text-secondary">Foto KTP</div>
-                        <img className="ktp_img" src="https://i.ibb.co/DVfpvSK/pngwing-com.png" alt="KTP" />
-                      </div>
-                      <div className="col-lg-12">
-                        <div className="title text-secondary">Foto Kartu Keluarga</div>
-                        <img className="ktp_img" src="" alt="KK" />
                       </div>
                     </div>
                   </div>
