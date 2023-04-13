@@ -9,4 +9,8 @@ export const CountServices = {
     const response = await API.get("/dpp/count");
     return response;
   },
+  countUser: async () => {
+    const response = await API.get("/user/count");
+    return response;
+  },
 };
