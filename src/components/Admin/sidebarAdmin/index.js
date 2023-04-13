@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./sidebarAdmin.css";
-import { ClipboardData, Person, BoxArrowRight, Archive, Speedometer2, PersonVcard, FileEarmarkPerson, CardChecklist, PersonVideo2, PersonVideo3 } from 'react-bootstrap-icons';
+import { ClipboardData, Person, BoxArrowRight, Archive, Speedometer2, PersonVcard, FileEarmarkPerson, CardChecklist, PersonVideo2 } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logoutActions } from "../../../config/redux/actions/authActions";
@@ -87,7 +87,7 @@ const SidebarAdmin = ({ page }) => {
                 User Arsip
               </button>
             </li>
-
+            <div className="ms-2 mt-3 text-secondary">Services</div>
             <li className="nav-item">
               <button className="nav-link px-3 btn logout-button" onClick={logoutHandle} >
                 Logout
