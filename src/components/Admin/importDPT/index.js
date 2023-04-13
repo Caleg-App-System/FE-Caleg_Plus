@@ -8,17 +8,13 @@ import Select from "react-select";
 const ImportFileDPT = () => {
   const [file, setFile] = useState(null);
   const [selectedTps, setSelectedTps] = useState(null);
+  const [selectedDesa, setSelectedDesa] = useState(null);
   const [sheet, setSheet] = useState(null);
   const [cellAwal, setCellAwal] = useState(null);
   const [cellAkhir, setCellAkhir] = useState(null);
 
-
-  console.log(selectedTps);
   const [tps, setTPS] = useState([]);
 
-
-  console.log(tps)
-  console.log(file);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,12 +28,14 @@ const ImportFileDPT = () => {
     return {
       id: item.id,
       label: `${item.name} - ${item.desa.name}`,
+      desa: item.desa.id,
     };
   });
 
   const handleTpsChange = (selectedOption) => {
     console.log(selectedOption);
     setSelectedTps(selectedOption.id);
+    setSelectedDesa(selectedOption.desa);
   };
 
 
@@ -48,8 +46,7 @@ const ImportFileDPT = () => {
     data.append("noSheet", sheet);
     data.append("startCell", cellAwal);
     data.append("endCell", cellAkhir);
-
-    console.log(data);
+    data.append("desa_id", selectedDesa);
     await dispatch(ImportDPT(data));
   };
 
