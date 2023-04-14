@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./importFileDPT.css";
 import { useDispatch } from "react-redux";
-import { ImportDPT } from "../../../config/redux/actions/importActions";
+import { ImportDPT, ImportDPTNewVersion } from "../../../config/redux/actions/importActions";
 import { VoteService } from "../../../services/voteServices";
 import Select from "react-select";
 
@@ -47,7 +47,7 @@ const ImportFileDPT = () => {
     data.append("startCell", cellAwal);
     data.append("endCell", cellAkhir);
     data.append("desa_id", selectedDesa);
-    await dispatch(ImportDPT(data));
+    await dispatch(ImportDPTNewVersion(data));
   };
 
   const selectStyles = {

@@ -18,4 +18,13 @@ export const ImportService = {
     });
     return response;
   },
+
+  importDPTNewVersion: async (data) => {
+    const response = await API.post("/dpp/createNewVersion", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response;
+  },
 };

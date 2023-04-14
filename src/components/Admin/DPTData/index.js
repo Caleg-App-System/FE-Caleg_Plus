@@ -156,16 +156,16 @@ const DPTData = () => {
       cell: (row, index) => index + 1,
       width: "50px"
     },
-    {
-      name: "NO KK",
-      selector: (row) => row.no_KK,
-      sortable: true
-    },
-    {
-      name: "NIK",
-      selector: (row) => row.nik,
-      sortable: true
-    },
+    // {
+    //   name: "NO KK",
+    //   selector: (row) => row.no_KK,
+    //   sortable: true
+    // },
+    // {
+    //   name: "NIK",
+    //   selector: (row) => row.nik,
+    //   sortable: true
+    // },
     {
       name: "Nama",
       selector: (row) => row.name,
@@ -173,7 +173,19 @@ const DPTData = () => {
     },
     {
       name: "Alamat",
-      selector: (row) => row.address,
+      selector: (row) => `RT ${row.rt} RW ${row.rw}, ${row.address}`,
+      sortable: true
+    },
+    {
+      name: "Usia",
+      width: "100px",
+      selector: (row) => row.usia,
+      sortable: true
+    },
+    {
+      name: "JK",
+      width: "100px",
+      selector: (row) => row.gender,
       sortable: true
     },
     {

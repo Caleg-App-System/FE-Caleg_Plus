@@ -20,3 +20,13 @@ export const ImportDPT = (data) => async (dispatch) => {
     SweatAlertTimer(String(error.response.data.message), "warning");
   }
 };
+
+export const ImportDPTNewVersion = (data) => async (dispatch) => {
+  try {
+    const response = await ImportService.importDPTNewVersion(data);
+    SweatAlertTimer(response.data.message, "success")
+    return response;
+  } catch (error) {
+    SweatAlertTimer(String(error.response.data.message), "warning");
+  }
+};

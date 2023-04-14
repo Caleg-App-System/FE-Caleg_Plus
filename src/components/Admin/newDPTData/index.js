@@ -66,11 +66,11 @@ const NewDPTData = () => {
       cell: (row, index) => index + 1,
       width: "50px"
     },
-    {
-      name: "NIK",
-      selector: (row) => row.nik,
-      sortable: true
-    },
+    // {
+    //   name: "NIK",
+    //   selector: (row) => row.nik,
+    //   sortable: true
+    // },
     {
       name: "Nama",
       selector: (row) => row.name,
@@ -78,7 +78,19 @@ const NewDPTData = () => {
     },
     {
       name: "Alamat",
-      selector: (row) => row.address,
+      selector: (row) => `RT ${row.rt} RW ${row.rw}, ${row.address}`,
+      sortable: true
+    },
+    {
+      name: "Usia",
+      width: "100px",
+      selector: (row) => row.usia,
+      sortable: true
+    },
+    {
+      name: "JK",
+      width: "100px",
+      selector: (row) => row.gender,
       sortable: true
     },
     {
