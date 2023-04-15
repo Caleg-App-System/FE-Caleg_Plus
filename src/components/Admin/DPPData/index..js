@@ -188,6 +188,15 @@ const DPPData = () => {
     }
   ]
 
+  const conditionalRowStyles = [
+    {
+      when: row => row.is_new === true,
+      style: {
+        backgroundColor: '#B1E7FA',
+      }
+    },
+  ];
+
   const filteredData = customFilter(dppData, columns, filterText1, filterText2, filterText3);
 
   const selectStyles = {
@@ -236,6 +245,7 @@ const DPPData = () => {
               columns={columns}
               // data={dptData.filter((row) => row.tps.desa.name.toLowerCase().includes(filterText.toLowerCase()))}
               data={filteredData}
+              conditionalRowStyles={conditionalRowStyles}
               noDataComponent="Data tidak ditemukan"
               subHeader
               subHeaderComponent={

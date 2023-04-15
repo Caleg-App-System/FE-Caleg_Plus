@@ -81,12 +81,12 @@ const NewDPTData = () => {
       selector: (row) => `RT ${row.rt} RW ${row.rw}, ${row.address}`,
       sortable: true
     },
-    {
-      name: "Usia",
-      width: "100px",
-      selector: (row) => row.usia,
-      sortable: true
-    },
+    // {
+    //   name: "Usia",
+    //   width: "100px",
+    //   selector: (row) => row.usia,
+    //   sortable: true
+    // },
     {
       name: "JK",
       width: "100px",
@@ -94,14 +94,7 @@ const NewDPTData = () => {
       sortable: true
     },
     {
-      name: "TPS",
-      width: "300px",
-      selector: (row) => `${row.tps.name} - ${row.tps.desa.name}, Kec. ${row.tps.desa.kecamatan.name}`,
-      sortable: true
-    },
-    {
       name: "Petugas",
-      width: "250px",
       selector: (row) => `${row.user.name} - ${row.user.role} ${row.user.working_area}`,
       sortable: true
     },
@@ -210,8 +203,6 @@ const NewDPTData = () => {
                         </h5>
                         <div className="title text-secondary">Keterangan</div>
                         <h5 className="value fw-semibold mb-4">{newDptDetail.keterangan ? newDptDetail.keterangan : "-"}</h5>
-                        <div className="title text-secondary">TPS</div>
-                        <h5 className="value fw-semibold mb-4">{`${tpsName} - ${desaName}`}</h5>
                         <div className="title text-secondary">Foto KTP</div>
                         {newDptDetail.photo_KTP === "" || newDptDetail.photo_KTP === null ? <h5 className="value fw-semibold mb-4 text-warning">Belum Ada</h5> : <img className="ktp_img" src={`data:image/jpeg;base64,${newDptDetail.photo_KTP}`} alt="Foto KTP" />}
                       </div>
