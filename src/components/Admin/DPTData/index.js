@@ -12,6 +12,9 @@ const DPTData = () => {
   const [tpsName, setTpsName] = useState(null);
   const [desaName, setDesaName] = useState(null);
   // const [filterText, setFilterText] = useState("");
+  console.log(dptData);
+  const [totalRows, setTotalRows] = useState(0);
+  const [perPage, setPerPage] = useState(10);
 
   const [kecamatan, setKecamatan] = useState([]);
   const [desa, setDesa] = useState([]);
@@ -24,15 +27,29 @@ const DPTData = () => {
   const [filterText2, setFilterText2] = useState("");
   const [filterText3, setFilterText3] = useState("");
 
+  const fetchData = async (page) => {
+    setPending(true);
+    let perPage = 10;
+    const response = await DptService.getDptAll(page, perPage);
+    setDptData(response.data.data.data);
+    setTotalRows(response.data.data.totalPages);
+    setPending(false);
+  };
+
+  const handleChangePage = (page) => {
+    fetchData(page);
+  };
+
+  const handlePerRowsChange = async (newPerPage, page) => {
+    setPending(true);
+    const response = await DptService.getDptByRows(page, newPerPage);
+    setDptData(response.data.data.data);
+    setPerPage(newPerPage);
+    setPending(false);
+  };
+
   useEffect(() => {
-    DptService.getAllDpt().then((response) => {
-      setDptData(response.data.data);
-    });
-    const timeout = setTimeout(() => {
-      setPending(false);
-    }
-      , 1000);
-    return () => clearTimeout(timeout);
+    fetchData(1); // fetch page 1 of users
   }, []);
 
   // Get Data All Kecamatan
@@ -273,6 +290,7 @@ const DPTData = () => {
                     options={kecamatanOptions}
                     onChange={handleKecamatanChange}
                     styles={selectStyles}
+                    isDisabled
                   />
                   <h6 className="ms-5 me-2">Desa :</h6>
                   <Select
@@ -298,6 +316,10 @@ const DPTData = () => {
                 color={'#e49011'}
                 size={30} />}
             pagination
+            paginationServer
+            paginationTotalRows={totalRows}
+            onChangeRowsPerPage={handlePerRowsChange}
+            onChangePage={handleChangePage}
           />
         </div>
       </div>
@@ -345,7 +367,7 @@ const DPTData = () => {
                         <h5 className="value fw-semibold mb-4">{dptDetail.address}</h5>
                         <div className="title text-secondary">Disabilitas</div>
                         <h5 className="value fw-semibold mb-4">
-                          {dptDetail.disability === "0" ? "Tidak"
+                          {dptDetail.disability === "0" || dptDetail.disability === null ? "Tidak"
                             :
                             dptDetail.disability === "1" ? "Tuna Daksa"
                               :

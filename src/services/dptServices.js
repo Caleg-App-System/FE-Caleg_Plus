@@ -1,8 +1,18 @@
 import API from "./api";
 
 export const DptService = {
-  getAllDpt: async () => {
-    const response = await API.get("/dpp/getall");
+  // getAllDpt: async () => {
+  //   const response = await API.get("/dpp/getall");
+  //   return response;
+  // },
+
+  getDptAll: async (page, perPage) => {
+    const response = await API.get(`/dpp/getall?page=${page}&limit=${perPage}`);
+    return response;
+  },
+
+  getDptByRows: async (page, newPerPage) => {
+    const response = await API.get(`/dpp/getall?page=${page}&limit=${newPerPage}`);
     return response;
   },
 
