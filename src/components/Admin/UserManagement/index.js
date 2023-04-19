@@ -15,21 +15,15 @@ const UserManagement = () => {
   const [pending, setPending] = useState(true);
   const [detailValue, setDetailValue] = useState([]);
 
-  const [blobUrl, setBlobUrl] = useState(null);
-  console.log(blobUrl)
-
   useEffect(() => {
+    setPending(true);
     UsersService.getUsers().then((res) => {
       setUsers(res.data.data);
-    });
-    const timeout = setTimeout(() => {
       setPending(false);
-    }, 2000);
-    return () => clearTimeout(timeout);
+    });
   }, [update]);
 
   const approvalHandler = async (id) => {
-    console.log(id);
     await UsersService.approval(id);
     SweatAlertTimer("User Berhasil di Approve", "success");
     setUpdate(!update);
@@ -43,17 +37,7 @@ const UserManagement = () => {
 
   const detailHandler = async (id) => {
     const HitUser = await UsersService.getUsersById(id);
-    // console.log(HitUser.data.data);
-
     setDetailValue(HitUser.data.data);
-    // setWorkingArea(HitUser.data.data.working_area)
-    console.log(HitUser.data.data.photo)
-    // const blob = new Blob([HitUser.data.data.photo], { type: 'image/jpeg' });
-    // const blobUrl = URL.createObjectURL(blob);
-    // setBlobUrl(blobUrl);
-    const img = new Buffer.from(HitUser.data.data.photo).toString("base64")
-    console.log(img)
-    setBlobUrl("data:image/png;base64," + img)
   }
 
   const updateWorkingAreaHandler = async (id) => {
@@ -78,7 +62,8 @@ const UserManagement = () => {
         fontSize: "15px",
         paddingLeft: "8px", // override the cell padding for head cells
         paddingRight: "8px",
-        backgroundColor: "#d3d3d3",
+        backgroundColor: "#7978ff",
+        color: "#fff",
       },
     },
     cells: {
@@ -169,6 +154,7 @@ const UserManagement = () => {
     },
     {
       name: "",
+      width: "150px",
       cell: (row) => (
         <>
           <button className="btn btn-info btn-sm me-3 text-white w-75" onClick={() => detailHandler(row.id)} data-bs-toggle="modal" data-bs-target='#detailModal' >
@@ -203,9 +189,10 @@ const UserManagement = () => {
               progressPending={pending}
               progressComponent={
                 <PuffLoader
-                  color={'#e49011'}
+                  color={'#7978ff'}
                   size={80} />}
               pagination
+              paginationRowsPerPageOptions={[10, 25, 50, 100, 200]}
             />
           </div>
         </div>
@@ -237,7 +224,7 @@ const UserManagement = () => {
                     </div>
                   </div>
                   <div className="col-lg-8">
-                    <div className="card card-one shadow-sm">
+                    <div className="card card-one shadow-sm general-info">
                       <div className="card-header card-two bg-transparent border-0">
                         <h5 className="mb-0"><Bookmarks size={20} className='me-2' />Informasi Umum</h5>
                       </div>

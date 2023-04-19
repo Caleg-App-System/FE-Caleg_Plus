@@ -318,6 +318,7 @@ const DPTData = () => {
             pagination
             paginationServer
             paginationTotalRows={totalRows}
+            paginationRowsPerPageOptions={[10, 25, 50, 100, 200]}
             onChangeRowsPerPage={handlePerRowsChange}
             onChangePage={handleChangePage}
           />

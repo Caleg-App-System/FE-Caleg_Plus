@@ -56,3 +56,21 @@
 .button-workingArea {
   margin-left: 27vw;
 }
+
+@media screen and (max-width: 768px) {
+  .table-usermanagement {
+    margin-left: 0;
+  }
+  .button-workingArea {
+    margin-left: 0;
+    width: 130px;
+  }
+  .general-info {
+    margin-top: 25px;
+  }
+  .ktp_img {
+    width: 300px;
+    height: 150px;
+    object-fit: cover;
+  }
+}

@@ -12,19 +12,16 @@ import { Bookmarks } from 'react-bootstrap-icons';
 const UserArchived = () => {
   const [update, setUpdate] = useState(false);
   const [users, setUsers] = useState([]);
-  console.log(users)
   const [filterText, setFilterText] = useState("");
   const [pending, setPending] = useState(true);
   const [detailValue, setDetailValue] = useState([]);
 
   useEffect(() => {
+    setPending(true);
     UsersService.getUsers().then((res) => {
       setUsers(res.data.data);
-    });
-    const timeout = setTimeout(() => {
       setPending(false);
-    }, 2000);
-    return () => clearTimeout(timeout);
+    });
   }, [update]);
 
   // hit api for unarchived

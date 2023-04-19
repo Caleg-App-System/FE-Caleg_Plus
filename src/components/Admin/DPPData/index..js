@@ -121,7 +121,8 @@ const DPPData = () => {
         fontSize: "15px",
         paddingLeft: "8px", // override the cell padding for head cells
         paddingRight: "8px",
-        backgroundColor: "#d3d3d3",
+        backgroundColor: "#ade792",
+        color: "#fff",
       },
     },
     cells: {
@@ -276,7 +277,7 @@ const DPPData = () => {
               progressPending={pending}
               progressComponent={
                 <PulseLoader
-                  color={'#e49011'}
+                  color={'#ade792'}
                   size={30} />}
               pagination
             />
