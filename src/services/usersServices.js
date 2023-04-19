@@ -2,7 +2,12 @@ import API from "./api"
 
 export const UsersService = {
   getUsers: async () => {
-    const response = await API.get('/auth/getall');
+    const response = await API.get('/auth/getallfalse');
+    return response;
+  },
+
+  getUsersArchived: async () => {
+    const response = await API.get('/auth/getalltrue');
     return response;
   },
 

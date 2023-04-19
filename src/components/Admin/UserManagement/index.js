@@ -177,7 +177,7 @@ const UserManagement = () => {
               title="DATA USER TERDAFTAR"
               columns={columns}
               // data={users.filter((row) => row.is_archived === false && row.name && row.name.toLowerCase().includes(filterText.toLowerCase()))}
-              data={users.filter((row) => row.is_archived === false)}
+              data={users}
               subHeader
               subHeaderComponent={
                 <div className="box-filter">

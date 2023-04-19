@@ -18,7 +18,7 @@ const UserArchived = () => {
 
   useEffect(() => {
     setPending(true);
-    UsersService.getUsers().then((res) => {
+    UsersService.getUsersArchived().then((res) => {
       setUsers(res.data.data);
       setPending(false);
     });
@@ -148,7 +148,7 @@ const UserArchived = () => {
             columns={columns}
             // data={users.filter((row) => row.name && row.name.toLowerCase().includes(filterText.toLowerCase()))}
             // data={users.filter((row) => row.is_archived === true && row.name && row.name.toLowerCase().includes(filterText.toLowerCase()))}
-            data={users.filter((row) => row.is_archived === true)}
+            data={users}
             subHeader
             subHeaderComponent={
               <div className="box-filter">
@@ -179,7 +179,7 @@ const UserArchived = () => {
                   <div className="col-lg-4">
                     <div className="card card-one shadow-sm">
                       <div className="card-header card-two bg-transparent text-center">
-                        <img className="profile_img" src={detailValue.photo ? detailValue.photo : "https://i.ibb.co/SyGtPFs/Profile.png"} alt="Profile_Pict" />
+                        {detailValue.photo === "" || detailValue.photo === null ? <img className="profile_img mb-2" src="https://i.ibb.co/SyGtPFs/Profile.png" alt="Profile_Pict" /> : <img className="profile_img mb-2" src={`data:image/jpeg;base64,${detailValue.photo}`} alt="Foto Profile" />}
                         <h3>{detailValue.name}</h3>
                       </div>
                       <div className="card-body">
@@ -238,7 +238,7 @@ const UserArchived = () => {
                           </div>
                           <div className="col mt-3">
                             <p>Foto KTP</p>
-                            <img className="ktp_img" src={detailValue.photo_ktp ? detailValue.photo_ktp : "https://i.ibb.co/DVfpvSK/pngwing-com.png"} alt="KTP_Pict" />
+                            {detailValue.photo_ktp === "" || detailValue.photo_ktp === null ? <img className="ktp_img" src="https://i.ibb.co/DVfpvSK/pngwing-com.png" alt="KTP_Pict" /> : <img className="ktp_img" src={`data:image/jpeg;base64,${detailValue.photo_ktp}`} alt="Foto KTP" />}
                           </div>
                         </div>
                       </div>

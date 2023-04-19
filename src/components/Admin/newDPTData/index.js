@@ -13,14 +13,11 @@ const NewDPTData = () => {
   const [desaName, setDesaName] = useState(null);
 
   useEffect(() => {
+    setPending(true);
     DptService.getNewDpt().then((response) => {
       setNewDptData(response.data.data);
-    });
-    const timeout = setTimeout(() => {
       setPending(false);
-    }
-      , 1000);
-    return () => clearTimeout(timeout);
+    });
   }, [update]);
 
   const newDptDetailHandler = async (id) => {
@@ -28,6 +25,12 @@ const NewDPTData = () => {
     setNewDptDetail(response.data.data);
     setTpsName(response.data.data.tps.name);
     setDesaName(response.data.data.tps.desa.name);
+  };
+
+  const newDptDeleteHandler = async (id) => {
+    const response = await DptService.deleteNewDpt(id);
+    SweatAlertTimer(response.data.message, "success", 2000);
+    setUpdate(!update);
   };
 
   const approveDpt = async (id) => {
@@ -100,14 +103,14 @@ const NewDPTData = () => {
     },
     {
       name: "Aksi",
-      width: "70px",
+      width: "75px",
       cell: (row) => (
         row.is_acc === false || row.is_acc === null ? (
-          <button className="btn btn-success btn-sm" onClick={() => approveDpt(row.id)}>
+          <button className="btn btn-success btn-sm w-100" onClick={() => approveDpt(row.id)}>
             Acc
           </button>
         ) : (
-          <button className="btn btn-secondary btn-sm" disabled>
+          <button className="btn btn-secondary btn-sm w-100" disabled>
             Acc
           </button>
         )
@@ -116,11 +119,16 @@ const NewDPTData = () => {
     },
     {
       name: "",
-      width: "100px",
+      width: "170px",
       cell: (row) => (
-        <div className="d-flex">
-          <button className="btn btn-info btn-sm text-white" onClick={() => newDptDetailHandler(row.id)} data-bs-toggle="modal" data-bs-target='#detailNewDPT'>Detail</button>
-        </div>
+        <>
+          <div className="d-flex">
+            <button className="btn btn-info btn-sm text-white me-3 w-80" onClick={() => newDptDetailHandler(row.id)} data-bs-toggle="modal" data-bs-target='#detailNewDPT'>Detail</button>
+          </div>
+          <div className="d-flex">
+            <button className="btn btn-danger btn-sm text-white w-80" onClick={() => newDptDeleteHandler(row.id)}>Hapus</button>
+          </div>
+        </>
       ),
     },
   ]

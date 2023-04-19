@@ -23,14 +23,15 @@ const DPTData = () => {
   const [countByTpsId, setCountByTpsId] = useState([]);
   console.log(countByTpsId);
 
-  const [filterText1, setFilterText1] = useState("");
-  const [filterText2, setFilterText2] = useState("");
+  const [filterText1, setFilterText1] = useState(1);
+  const [filterText2, setFilterText2] = useState(1);
+  console.log(filterText2)
   const [filterText3, setFilterText3] = useState("");
 
   const fetchData = async (page) => {
     setPending(true);
     let perPage = 10;
-    const response = await DptService.getDptAll(page, perPage);
+    const response = await DptService.getDptAll(page, perPage, filterText1, filterText2);
     setDptData(response.data.data.data);
     setTotalRows(response.data.data.totalPages);
     setPending(false);
@@ -84,15 +85,17 @@ const DPTData = () => {
   };
 
   // Handle Change Desa
-  const handleDesaChange = (selectedOption) => {
-    setFilterText2(selectedOption.label)
+  const handleDesaChange = (selectedOption, filterText2) => {
+    setFilterText2(selectedOption.id)
+    filterText2 = selectedOption.id
+    fetchData(filterText2)
     const desaId = selectedOption.id;
     getTpsById(desaId);
   };
 
   // Handle Change Tps
   const handleTpsChange = (selectedOption) => {
-    setFilterText1(selectedOption.label)
+    setFilterText1(selectedOption.id)
     const tpsId = selectedOption.id;
     console.log(tpsId)
     countTpsById(tpsId);
@@ -125,24 +128,24 @@ const DPTData = () => {
   //   setFilterText(e.target.value);
   // };
 
-  const customFilter = (rows, columns, filterText1, filterText2, filterText3) => {
-    return rows.filter((row) =>
-      row.tps.name
-        .toString()
-        .toLowerCase()
-        .indexOf(filterText1.toLowerCase()) !== -1
-      &&
-      row.tps.desa.name
-        .toString()
-        .toLowerCase()
-        .indexOf(filterText2.toLowerCase()) !== -1
-      &&
-      row.tps.desa.kecamatan.name
-        .toString()
-        .toLowerCase()
-        .indexOf(filterText3.toLowerCase()) !== -1
-    );
-  };
+  // const customFilter = (rows, columns, filterText1, filterText2, filterText3) => {
+  //   return rows.filter((row) =>
+  //     row.tps.name
+  //       .toString()
+  //       .toLowerCase()
+  //       .indexOf(filterText1.toLowerCase()) !== -1
+  //     &&
+  //     row.tps.desa.name
+  //       .toString()
+  //       .toLowerCase()
+  //       .indexOf(filterText2.toLowerCase()) !== -1
+  //     &&
+  //     row.tps.desa.kecamatan.name
+  //       .toString()
+  //       .toLowerCase()
+  //       .indexOf(filterText3.toLowerCase()) !== -1
+  //   );
+  // };
 
   const customStyles = {
     rows: {
@@ -231,7 +234,7 @@ const DPTData = () => {
     },
   ];
 
-  const filteredData = customFilter(dptData, columns, filterText1, filterText2, filterText3);
+  // const filteredData = customFilter(dptData, columns, filterText1, filterText2, filterText3);
 
   const selectStyles = {
     control: (provided, state) => ({
@@ -277,7 +280,7 @@ const DPTData = () => {
             title="DATA DAFTAR PEMILIH TETAP"
             columns={columns}
             // data={dptData.filter((row) => row.tps.desa.name.toLowerCase().includes(filterText.toLowerCase()))}
-            data={filteredData}
+            data={dptData}
             noDataComponent="Data tidak ditemukan"
             conditionalRowStyles={conditionalRowStyles}
             subHeader
@@ -290,7 +293,6 @@ const DPTData = () => {
                     options={kecamatanOptions}
                     onChange={handleKecamatanChange}
                     styles={selectStyles}
-                    isDisabled
                   />
                   <h6 className="ms-5 me-2">Desa :</h6>
                   <Select

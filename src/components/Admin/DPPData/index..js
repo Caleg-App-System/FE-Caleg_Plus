@@ -3,8 +3,10 @@ import { DptService } from "../../../services/dptServices";
 import DataTable from "react-data-table-component";
 import PulseLoader from "react-spinners/PulseLoader";
 import Select from "react-select";
+import SweatAlert from "../../../config/SweatAlert";
 
 const DPPData = () => {
+  const [update, setUpdate] = useState(false);
   const [dppData, setDppData] = useState([]);
   const [pending, setPending] = useState(true);
   const [dppDetail, setDppDetail] = useState([]);
@@ -20,15 +22,12 @@ const DPPData = () => {
   const [filterText3, setFilterText3] = useState("");
 
   useEffect(() => {
+    setPending(true);
     DptService.getAllDpp().then((response) => {
       setDppData(response.data.data);
-    });
-    const timeout = setTimeout(() => {
       setPending(false);
-    }
-      , 1000);
-    return () => clearTimeout(timeout);
-  }, []);
+    });
+  }, [update]);
 
   // Get Data All Kecamatan
   useEffect(() => {
@@ -89,6 +88,12 @@ const DPPData = () => {
     setDppDetail(response.data.data);
     setTpsName(response.data.data.tps.name);
     setDesaName(response.data.data.tps.desa.name);
+  }
+
+  const dppDeleteHandler = async (id) => {
+    const response = await DptService.deleteDpp(id);
+    SweatAlert(response.data.message, 'success');
+    setUpdate(!update);
   }
 
   const customFilter = (rows, columns, filterText1, filterText2, filterText3) => {
@@ -180,11 +185,16 @@ const DPPData = () => {
     },
     {
       name: "Aksi",
-      width: "100px",
+      width: "170px",
       cell: (row) => (
-        <div className="d-flex">
-          <button className="btn btn-info btn-sm me-3 text-white" onClick={() => dppDetailHandler(row.id)} data-bs-toggle="modal" data-bs-target='#detailDPP'>Detail</button>
-        </div>
+        <>
+          <div className="d-flex">
+            <button className="btn btn-info btn-sm me-3 text-white" onClick={() => dppDetailHandler(row.id)} data-bs-toggle="modal" data-bs-target='#detailDPP'>Detail</button>
+          </div>
+          <div className="d-flex">
+            <button className="btn btn-danger btn-sm me-3 text-white" onClick={() => dppDeleteHandler(row.id)}>Hapus</button>
+          </div>
+        </>
       ),
     }
   ]

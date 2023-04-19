@@ -6,8 +6,8 @@ export const DptService = {
   //   return response;
   // },
 
-  getDptAll: async (page, perPage) => {
-    const response = await API.get(`/dpp/getall?page=${page}&limit=${perPage}`);
+  getDptAll: async (page, perPage, filterText1, filterText2) => {
+    const response = await API.get(`/dpp/getall?page=${page}&limit=${perPage}&tps_id=${filterText1}&desa_id=${filterText2}`);
     return response;
   },
 
@@ -50,6 +50,18 @@ export const DptService = {
   },
   countDptByTpsId: async (tpsId) => {
     const response = await API.get(`/dpp/count/${tpsId}`);
+    return response;
+  },
+
+  // Delete DPP
+  deleteDpp: async (id) => {
+    const response = await API.put(`/dpp/deleteDpp/${id}`);
+    return response;
+  },
+
+  // Delete New DPT
+  deleteNewDpt: async (id) => {
+    const response = await API.delete(`/dpp/deleteNewDpt/${id}`);
     return response;
   },
 };
