@@ -7,12 +7,22 @@ export const DptService = {
   // },
 
   getDptAll: async (page, perPage, filterText1, filterText2) => {
-    const response = await API.get(`/dpp/getall?page=${page}&limit=${perPage}&tps_id=${filterText1}&desa_id=${filterText2}`);
+    const response = await API.get(`/dpp/getall?page=${page}&limit=${perPage}`);
     return response;
   },
 
   getDptByRows: async (page, newPerPage) => {
     const response = await API.get(`/dpp/getall?page=${page}&limit=${newPerPage}`);
+    return response;
+  },
+
+  getDptByDesa: async (page, desaId, perPage) => {
+    const response = await API.get(`/dpp/getall?page=${page}&limit=${perPage}&desa_id=${desaId}`);
+    return response;
+  },
+
+  getDptByTps: async (page, desaId, tpsId, perPage) => {
+    const response = await API.get(`/dpp/getall?page=${page}&limit=${perPage}&desa_id=${desaId}&tps_id=${tpsId}`);
     return response;
   },
 

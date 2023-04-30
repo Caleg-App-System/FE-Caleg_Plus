@@ -40,7 +40,7 @@ const SidebarAdmin = ({ page }) => {
               </button>
             </li>
             <li className="nav-item">
-              <button className="nav-link btn disabled" onClick={(e) => page('dataDPT')}>
+              <button className="nav-link btn" onClick={(e) => page('dataDPT')}>
                 <PersonVcard color="black" size={25} className='me-2' />
                 Data DPT
               </button>

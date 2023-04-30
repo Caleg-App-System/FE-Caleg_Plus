@@ -20,18 +20,19 @@ const DPTData = () => {
   const [desa, setDesa] = useState([]);
   const [tps, setTps] = useState([]);
 
+  const [idDesa, setIdDesa] = useState(null);
+
   const [countByTpsId, setCountByTpsId] = useState([]);
   console.log(countByTpsId);
 
   const [filterText1, setFilterText1] = useState(1);
   const [filterText2, setFilterText2] = useState(1);
-  console.log(filterText2)
   const [filterText3, setFilterText3] = useState("");
 
   const fetchData = async (page) => {
     setPending(true);
     let perPage = 10;
-    const response = await DptService.getDptAll(page, perPage, filterText1, filterText2);
+    const response = await DptService.getDptAll(page, perPage);
     setDptData(response.data.data.data);
     setTotalRows(response.data.data.totalPages);
     setPending(false);
@@ -48,6 +49,8 @@ const DPTData = () => {
     setPerPage(newPerPage);
     setPending(false);
   };
+
+
 
   useEffect(() => {
     fetchData(1); // fetch page 1 of users
@@ -84,22 +87,42 @@ const DPTData = () => {
     getDesaById(kecamatanId);
   };
 
-  // Handle Change Desa
-  const handleDesaChange = (selectedOption, filterText2) => {
-    setFilterText2(selectedOption.id)
-    filterText2 = selectedOption.id
-    fetchData(filterText2)
+  const handleDesaChange = async (selectedOption) => {
+    setPending(true);
     const desaId = selectedOption.id;
+    let page = 1;
+    const response = await DptService.getDptByDesa(page, desaId, perPage);
+    setDptData(response.data.data.data);
+    setIdDesa(desaId);
     getTpsById(desaId);
+    setPending(false);
   };
 
-  // Handle Change Tps
-  const handleTpsChange = (selectedOption) => {
-    setFilterText1(selectedOption.id)
+  const handleTpsChange = async (selectedOption) => {
+    setPending(true);
     const tpsId = selectedOption.id;
-    console.log(tpsId)
-    countTpsById(tpsId);
+    let page = 1;
+    const response = await DptService.getDptByTps(page, idDesa, tpsId, perPage);
+    setDptData(response.data.data.data);
+    setPending(false);
   };
+
+  // // Handle Change Desa
+  // const handleDesaChange = (selectedOption, filterText2) => {
+  //   setFilterText2(selectedOption.id)
+  //   filterText2 = selectedOption.id
+  //   fetchData(filterText2)
+  //   const desaId = selectedOption.id;
+  //   getTpsById(desaId);
+  // };
+
+  // // Handle Change Tps
+  // const handleTpsChange = (selectedOption) => {
+  //   setFilterText1(selectedOption.id)
+  //   const tpsId = selectedOption.id;
+  //   console.log(tpsId)
+  //   countTpsById(tpsId);
+  // };
 
   // Options map for select
   const kecamatanOptions = kecamatan.map((kecamatan) => ({
@@ -299,14 +322,12 @@ const DPTData = () => {
                     options={desaOptions}
                     onChange={handleDesaChange}
                     styles={selectStyles}
-                    isDisabled={filterText3 === ""}
                   />
                   <h6 className="ms-5 me-2">TPS :</h6>
                   <Select
                     options={tpsOptions}
                     onChange={handleTpsChange}
                     styles={selectStyles}
-                    isDisabled={filterText2 === ""}
                   />
                 </div>
               </>
