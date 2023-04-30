@@ -1,4 +1,4 @@
-const initialState ={
+const initialState = {
     // local storage
     username: JSON.parse(localStorage.getItem('username')) || {},
     token: localStorage.getItem('token'),
@@ -9,7 +9,7 @@ const initialState ={
 }
 
 const auth = (state = initialState, action) => {
-    console.log(action)
+    // console.log(action)
     switch (action.type) {
         case 'LOGIN':
             return ({

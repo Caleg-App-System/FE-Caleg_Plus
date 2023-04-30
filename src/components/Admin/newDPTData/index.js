@@ -34,7 +34,6 @@ const NewDPTData = () => {
   };
 
   const approveDpt = async (id) => {
-    console.log("button acc clicked")
     const response = await DptService.approveDpp(id);
     SweatAlertTimer(response.data.message, "success", 2000);
     setUpdate(!update);

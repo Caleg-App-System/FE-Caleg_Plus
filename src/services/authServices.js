@@ -13,7 +13,6 @@ export const AuthService = {
     const id = response.data.data.user.id;
     const email = response.data.data.user.email;
     setHeadersAndStorage(response.data, Username, id, email, Role);
-    console.log(Username);
 
     setTimeout(() => {
       localStorage.clear();
@@ -32,7 +31,6 @@ export const AuthService = {
     //     }
     //     , 86400000);
     // }
-    console.log(response.data);
 
     return response;
   },

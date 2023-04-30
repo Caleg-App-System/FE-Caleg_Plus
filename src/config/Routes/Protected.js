@@ -8,12 +8,11 @@ function Protected({ children }) {
   const role = useSelector(state => state.auth.role)
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
 
-useEffect(() => {
-  console.log(role)
+  useEffect(() => {
     if (role !== "ADMIN" || !isLoggedIn) {
-        navigate("/");
+      navigate("/");
     }
-}, [role, navigate, isLoggedIn]);
+  }, [role, navigate, isLoggedIn]);
 
   return children;
 }

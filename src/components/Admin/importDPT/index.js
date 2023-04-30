@@ -33,7 +33,6 @@ const ImportFileDPT = () => {
   });
 
   const handleTpsChange = (selectedOption) => {
-    console.log(selectedOption);
     setSelectedTps(selectedOption.id);
     setSelectedDesa(selectedOption.desa);
   };

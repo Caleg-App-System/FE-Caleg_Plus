@@ -12,7 +12,6 @@ const DPTData = () => {
   const [tpsName, setTpsName] = useState(null);
   const [desaName, setDesaName] = useState(null);
   // const [filterText, setFilterText] = useState("");
-  console.log(dptData);
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
 
@@ -23,7 +22,6 @@ const DPTData = () => {
   const [idDesa, setIdDesa] = useState(null);
 
   const [countByTpsId, setCountByTpsId] = useState([]);
-  console.log(countByTpsId);
 
   const [filterText1, setFilterText1] = useState(1);
   const [filterText2, setFilterText2] = useState(1);

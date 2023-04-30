@@ -17,7 +17,6 @@ export const UsersService = {
   },
 
   approval: async (id) => {
-    console.log(id)
     const response = await API.put('/auth/activate/role/' + id);
     return response;
   },
