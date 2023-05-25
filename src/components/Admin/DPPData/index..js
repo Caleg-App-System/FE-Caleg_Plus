@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DptService } from "../../../services/dptServices";
+import { UsersService } from "../../../services/usersServices";
 import DataTable from "react-data-table-component";
 import PulseLoader from "react-spinners/PulseLoader";
 import Select from "react-select";
@@ -12,75 +13,57 @@ const DPPData = () => {
   const [dppDetail, setDppDetail] = useState([]);
   const [tpsName, setTpsName] = useState(null);
   const [desaName, setDesaName] = useState(null);
+  const [users, setUsers] = useState([]);
 
-  const [kecamatan, setKecamatan] = useState([]);
-  const [desa, setDesa] = useState([]);
-  const [tps, setTps] = useState([]);
+  const [totalRows, setTotalRows] = useState(null);
+  const [perPage, setPerPage] = useState(null);
 
-  const [filterText1, setFilterText1] = useState("");
-  const [filterText2, setFilterText2] = useState("");
-  const [filterText3, setFilterText3] = useState("");
-
-  useEffect(() => {
+  const fetchData = async (page) => {
     setPending(true);
-    DptService.getAllDpp().then((response) => {
-      setDppData(response.data.data);
-      setPending(false);
-    });
-  }, [update]);
+    let perPage = 10;
+    const response = await DptService.getAllDpp(page, perPage);
+    setDppData(response.data.data.data);
+    setTotalRows(response.data.data.totalPages);
+    setPending(false);
+  };
 
-  // Get Data All Kecamatan
+  const handleChangePage = (page) => {
+    fetchData(page);
+  };
+
+  const handlePerRowsChange = async (newPerPage, page) => {
+    setPending(true);
+    const response = await DptService.getDppByRows(page, newPerPage);
+    setDppData(response.data.data.data);
+    setPerPage(newPerPage);
+    setPending(false);
+  };
+
   useEffect(() => {
-    DptService.getAllKecamatan().then((response) => {
-      setKecamatan(response.data.data);
+    fetchData(1); // fetch page 1 of users
+  }, []);
+
+  // Get All User
+  useEffect(() => {
+    UsersService.getUsers().then((response) => {
+      setUsers(response.data.data);
     });
   }, []);
 
-  // Get Data Desa By Id
-  const getDesaById = async (kecamatanId) => {
-    const response = await DptService.getAllDesaByKecamatanId(kecamatanId);
-    setDesa(response.data.data);
+  // Handle User Change
+  const handleUserChange = async (selectedOption) => {
+    setPending(true);
+    const userId = selectedOption.id;
+    console.log(userId);
+    const response = await DptService.getDppByUserId(userId);
+    setDppData(response.data.data.data);
+    setPending(false);
   };
 
-  // Get Data Tps By Id
-  const getTpsById = async (desaId) => {
-    const response = await DptService.getTpsById(desaId);
-    setTps(response.data.data);
-  };
-
-  // Handle Change Kecamatan
-  const handleKecamatanChange = (selectedOption) => {
-    setFilterText3(selectedOption.label)
-    const kecamatanId = selectedOption.id;
-    getDesaById(kecamatanId);
-  };
-
-  // Handle Change Desa
-  const handleDesaChange = (selectedOption) => {
-    setFilterText2(selectedOption.label)
-    const desaId = selectedOption.id;
-    getTpsById(desaId);
-  };
-
-  // Handle Change Tps
-  const handleTpsChange = (selectedOption) => {
-    setFilterText1(selectedOption.label)
-  };
-
-  // Options map for select
-  const kecamatanOptions = kecamatan.map((kecamatan) => ({
-    id: kecamatan.id,
-    label: kecamatan.name,
-  }));
-
-  const desaOptions = desa.map((desa) => ({
-    id: desa.id,
-    label: desa.name,
-  }));
-
-  const tpsOptions = tps.map((tps) => ({
-    id: tps.id,
-    label: tps.name,
+  // Option maps user
+  const userOptions = users.map((user) => ({
+    id: user.id,
+    label: user.name,
   }));
 
   const dppDetailHandler = async (id) => {
@@ -95,25 +78,6 @@ const DPPData = () => {
     SweatAlert(response.data.message, 'success');
     setUpdate(!update);
   }
-
-  const customFilter = (rows, columns, filterText1, filterText2, filterText3) => {
-    return rows.filter((row) =>
-      row.tps.name
-        .toString()
-        .toLowerCase()
-        .indexOf(filterText1.toLowerCase()) !== -1
-      &&
-      row.tps.desa.name
-        .toString()
-        .toLowerCase()
-        .indexOf(filterText2.toLowerCase()) !== -1
-      &&
-      row.tps.desa.kecamatan.name
-        .toString()
-        .toLowerCase()
-        .indexOf(filterText3.toLowerCase()) !== -1
-    );
-  };
 
   const customStyles = {
     rows: {
@@ -208,7 +172,7 @@ const DPPData = () => {
     },
   ];
 
-  const filteredData = customFilter(dppData, columns, filterText1, filterText2, filterText3);
+  // const filteredData = customFilter(dppData, columns, filterText1, filterText2, filterText3);
 
   const selectStyles = {
     control: (provided, state) => ({
@@ -217,13 +181,13 @@ const DPPData = () => {
       // borderColor: '#9e9e9e',
       minHeight: '30px',
       height: '30px',
-      width: '150px',
+      width: '200px',
       boxShadow: state.isFocused ? null : null,
     }),
 
     valueContainer: (provided, state) => ({
       ...provided,
-      height: '20px',
+      height: '25px',
       padding: '0 0'
     }),
 
@@ -236,7 +200,7 @@ const DPPData = () => {
     }),
     indicatorsContainer: (provided, state) => ({
       ...provided,
-      height: '30px',
+      height: '25px',
     }),
     placeholder: (provided, state) => ({
       ...provided,
@@ -255,31 +219,17 @@ const DPPData = () => {
               title="DATA DAFTAR PEMILIH POTENSIAL"
               columns={columns}
               // data={dptData.filter((row) => row.tps.desa.name.toLowerCase().includes(filterText.toLowerCase()))}
-              data={filteredData}
+              data={dppData}
               conditionalRowStyles={conditionalRowStyles}
               noDataComponent="Data tidak ditemukan"
               subHeader
               subHeaderComponent={
                 <div className="box-filter-dpt d-flex">
-                  <h6 className="me-2">Kecamatan :</h6>
+                  <h6 className="me-2">Petugas :</h6>
                   <Select
-                    options={kecamatanOptions}
-                    onChange={handleKecamatanChange}
+                    options={userOptions}
+                    onChange={handleUserChange}
                     styles={selectStyles}
-                  />
-                  <h6 className="ms-5 me-2">Desa :</h6>
-                  <Select
-                    options={desaOptions}
-                    onChange={handleDesaChange}
-                    styles={selectStyles}
-                    isDisabled={filterText3 === ""}
-                  />
-                  <h6 className="ms-5 me-2">TPS :</h6>
-                  <Select
-                    options={tpsOptions}
-                    onChange={handleTpsChange}
-                    styles={selectStyles}
-                    isDisabled={filterText2 === ""}
                   />
                 </div>
               }
@@ -290,6 +240,11 @@ const DPPData = () => {
                   color={'#ade792'}
                   size={30} />}
               pagination
+              paginationServer
+              paginationTotalRows={totalRows}
+              paginationRowsPerPageOptions={[10, 25, 50, 100, 200]}
+              onChangeRowsPerPage={handlePerRowsChange}
+              onChangePage={handleChangePage}
             />
           </div>
         </div>

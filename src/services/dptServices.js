@@ -41,6 +41,16 @@ export const DptService = {
     return response;
   },
 
+  getDppByRows: async (page, newPerPage) => {
+    const response = await API.get(`/dpp/getallDPP?page=${page}&limit=${newPerPage}`);
+    return response;
+  },
+
+  getDppByUserId: async (userId) => {
+    const response = await API.get(`/dpp/getallDPP?user_id=${userId}`);
+    return response;
+  },
+
   approveDpp: async (id) => {
     const response = await API.put(`/dpp/approve/${id}`);
     return response;
