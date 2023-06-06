@@ -17,10 +17,10 @@ const DPPData = () => {
 
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
+  console.log(perPage)
 
   const fetchData = async (page) => {
     setPending(true);
-    let perPage = 10;
     const response = await DptService.getAllDpp(page, perPage);
     setDppData(response.data.data.data);
     setTotalRows(response.data.data.jumlahData);

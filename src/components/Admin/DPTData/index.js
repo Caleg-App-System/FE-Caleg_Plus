@@ -29,7 +29,6 @@ const DPTData = () => {
 
   const fetchData = async (page) => {
     setPending(true);
-    let perPage = 10;
     const response = await DptService.getDptAll(page, perPage);
     setDptData(response.data.data.data);
     setTotalRows(response.data.data.jumlahData);
