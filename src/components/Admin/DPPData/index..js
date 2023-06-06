@@ -15,15 +15,15 @@ const DPPData = () => {
   const [desaName, setDesaName] = useState(null);
   const [users, setUsers] = useState([]);
 
-  const [totalRows, setTotalRows] = useState(null);
-  const [perPage, setPerPage] = useState(null);
+  const [totalRows, setTotalRows] = useState(0);
+  const [perPage, setPerPage] = useState(10);
 
   const fetchData = async (page) => {
     setPending(true);
     let perPage = 10;
     const response = await DptService.getAllDpp(page, perPage);
     setDppData(response.data.data.data);
-    setTotalRows(response.data.data.totalPages);
+    setTotalRows(response.data.data.jumlahData);
     setPending(false);
   };
 
@@ -54,8 +54,8 @@ const DPPData = () => {
   const handleUserChange = async (selectedOption) => {
     setPending(true);
     const userId = selectedOption.id;
-    console.log(userId);
-    const response = await DptService.getDppByUserId(userId);
+    let page = 1;
+    const response = await DptService.getDppByUserId(page, perPage, userId);
     setDppData(response.data.data.data);
     setPending(false);
   };

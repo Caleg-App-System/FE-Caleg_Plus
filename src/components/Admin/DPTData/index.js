@@ -32,7 +32,7 @@ const DPTData = () => {
     let perPage = 10;
     const response = await DptService.getDptAll(page, perPage);
     setDptData(response.data.data.data);
-    setTotalRows(response.data.data.totalPages);
+    setTotalRows(response.data.data.jumlahData);
     setPending(false);
   };
 

@@ -36,8 +36,8 @@ export const DptService = {
     return response;
   },
 
-  getAllDpp: async () => {
-    const response = await API.get("/dpp/getallDPP");
+  getAllDpp: async (page, perPage) => {
+    const response = await API.get(`/dpp/getallDPP?page=${page}&limit=${perPage}`);
     return response;
   },
 
@@ -46,8 +46,8 @@ export const DptService = {
     return response;
   },
 
-  getDppByUserId: async (userId) => {
-    const response = await API.get(`/dpp/getallDPP?user_id=${userId}`);
+  getDppByUserId: async (page, perPage, userId) => {
+    const response = await API.get(`/dpp/getallDPP?page=${page}&limit=${perPage}&user_id=${userId}`);
     return response;
   },
 
