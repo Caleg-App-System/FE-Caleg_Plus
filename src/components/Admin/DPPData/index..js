@@ -5,6 +5,10 @@ import DataTable from "react-data-table-component";
 import PulseLoader from "react-spinners/PulseLoader";
 import Select from "react-select";
 import SweatAlert from "../../../config/SweatAlert";
+import * as FileSaver from 'file-saver';
+// import { CSVLink } from 'react-csv';
+// import * as XLSX from 'xlsx';
+import Papa from 'papaparse';
 
 const DPPData = () => {
   const [update, setUpdate] = useState(false);
@@ -210,6 +214,50 @@ const DPPData = () => {
     }),
   };
 
+  // const exportToExcel = (dppData) => {
+  //   const fileType =
+  //     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+  //   const fileExtension = '.xlsx';
+
+  //   // Convert data to worksheet
+  //   const ws = XLSX.utils.json_to_sheet(dppData);
+
+  //   // Create workbook and add the worksheet
+  //   const wb = { Sheets: { dppData: ws }, SheetNames: ['data'] };
+
+  //   // Convert the workbook to an array buffer
+  //   const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+
+  //   // Create a Blob object from the array buffer
+  //   const blob = new Blob([excelBuffer], { type: fileType });
+
+  //   // Save the file using FileSaver.js
+  //   FileSaver.saveAs(blob, 'data' + fileExtension);
+  // };
+
+  const exportToExcel = (dppData) => {
+    let index = 0;
+    const csvData = dppData.map((item) => ({
+      // Adjust the keys according to your data structure
+      No: ++index,
+      Nama: item.name,
+      Alamat: item.address + " ,RT " + item.rt + " ,RW " + item.rw,
+      Usia: item.usia,
+      JK: item.gender,
+      TPS: item.tps.name + " - " + item.tps.desa.name + ", Kec. " + item.tps.desa.kecamatan.name,
+    }));
+
+    const csvHeaders = Object.keys(csvData[0]);
+
+    // Generate a CSV string
+    const csvString = Papa.unparse({ fields: csvHeaders, data: csvData });
+
+    // Convert the CSV string to a Blob object
+    const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+
+    // Save the file using FileSaver.js
+    FileSaver.saveAs(blob, 'data.csv');
+  };
   return (
     <>
       <main className="container-usermanagement col-md-9 col-lg-11">
@@ -246,6 +294,7 @@ const DPPData = () => {
               onChangeRowsPerPage={handlePerRowsChange}
               onChangePage={handleChangePage}
             />
+            <button className="btn btn-success btn-sm text-white" onClick={() => exportToExcel(dppData)}>Export ke Excel</button>
           </div>
         </div>
 
